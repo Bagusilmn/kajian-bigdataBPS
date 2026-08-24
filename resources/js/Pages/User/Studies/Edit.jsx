@@ -4,8 +4,46 @@ import Quill from 'quill';
 import QuillResize from 'quill-resize-module';
 import 'quill/dist/quill.snow.css';
 import 'quill-resize-module/dist/resize.css';
-
 import DashboardLayout from '../../../Layouts/DashboardLayout';
+const BlockEmbed = Quill.import('blots/block/embed');
+
+class PdfBlot extends BlockEmbed {
+    static blotName = 'pdf';
+    static tagName = 'div';
+    static className = 'pdf-embed';
+
+    static create(value) {
+        const node = super.create();
+
+        const iframe = document.createElement('iframe');
+
+        iframe.src = value.url;
+        iframe.title = value.name || 'Dokumen PDF';
+        iframe.loading = 'lazy';
+
+        node.setAttribute('contenteditable', 'false');
+        node.dataset.url = value.url;
+        node.dataset.name = value.name || 'Dokumen PDF';
+
+        iframe.style.width = '100%';
+        iframe.style.height = '700px';
+        iframe.style.border = '0';
+        iframe.style.borderRadius = '8px';
+
+        node.appendChild(iframe);
+
+        return node;
+    }
+
+    static value(node) {
+        return {
+            url: node.dataset.url,
+            name: node.dataset.name,
+        };
+    }
+}
+
+Quill.register(PdfBlot);
 Quill.register('modules/resize', QuillResize);
 export default function Edit({ study, categories }) {
     const editorRef = useRef(null);
@@ -18,7 +56,7 @@ export default function Edit({ study, categories }) {
     );
 
     const [uploadingImage, setUploadingImage] = useState(false);
-
+    const [uploadingPdf, setUploadingPdf] = useState(false);
     const [keywordInput, setKeywordInput] = useState('');
 
     const [keywords, setKeywords] = useState(
@@ -100,12 +138,13 @@ export default function Edit({ study, categories }) {
                         [{ list: 'ordered' }, { list: 'bullet' }],
                         [{ indent: '-1' }, { indent: '+1' }],
                         ['blockquote', 'code-block'],
-                        ['link', 'image'],
+                        ['link', 'image', 'pdf'],
                         ['clean'],
                     ],
 
                     handlers: {
                         image: handleImageUpload,
+                        pdf: handlePdfUpload,
                     },
                 },
 
@@ -241,7 +280,106 @@ export default function Edit({ study, categories }) {
             }
         };
     }
+    async function handlePdfUpload() {
+        const input = document.createElement('input');
 
+        input.type = 'file';
+        input.accept = 'application/pdf';
+
+        input.click();
+
+        input.onchange = async () => {
+            const file = input.files?.[0];
+
+            if (!file) {
+                return;
+            }
+
+            if (file.type !== 'application/pdf') {
+                alert('File yang dipilih harus berupa PDF.');
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                alert('Ukuran PDF maksimal 10 MB.');
+                return;
+            }
+
+            setUploadingPdf(true);
+
+            const data = new FormData();
+            data.append('pdf', file);
+
+            try {
+                const response = await fetch(
+                    `/user/studies/${study.id}/content-pdf`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN':
+                                document
+                                    .querySelector(
+                                        'meta[name="csrf-token"]'
+                                    )
+                                    ?.getAttribute('content'),
+
+                            'Accept': 'application/json',
+                        },
+                        body: data,
+                    }
+                );
+
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(
+                        result.message ||
+                        'Upload PDF gagal.'
+                    );
+                }
+
+                const quill = quillRef.current;
+
+                if (!quill) {
+                    return;
+                }
+
+                const range = quill.getSelection(true);
+
+                quill.insertEmbed(
+                    range.index,
+                    'pdf',
+                    {
+                        url: result.url,
+                        name: result.name,
+                    },
+                    'user'
+                );
+
+                quill.insertText(
+                    range.index + 1,
+                    '\n',
+                    'user'
+                );
+
+                quill.setSelection(
+                    range.index + 2,
+                    0,
+                    'user'
+                );
+
+            } catch (error) {
+                console.error(error);
+
+                alert(
+                    error.message ||
+                    'PDF gagal diupload.'
+                );
+            } finally {
+                setUploadingPdf(false);
+            }
+        };
+    }
     function handleCoverChange(event) {
         const file = event.target.files?.[0];
 

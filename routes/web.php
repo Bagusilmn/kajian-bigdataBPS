@@ -110,6 +110,12 @@ Route::middleware(['auth', 'role:user'])
             '/studies/{study}/content-image',
             [UserStudyController::class, 'uploadContentImageForStudy']
         )->name('studies.content-image.update');
+        Route::post('/studies/content-pdf', [UserStudyController::class, 'uploadContentPdf'])
+            ->name('studies.content-pdf');
+        Route::post(
+            '/studies/{study}/content-pdf',
+            [UserStudyController::class, 'uploadContentPdfForStudy']
+        )->name('studies.content-pdf.update');
     });
 
 

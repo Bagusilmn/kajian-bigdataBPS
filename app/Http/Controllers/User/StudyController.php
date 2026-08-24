@@ -163,6 +163,7 @@ class StudyController extends Controller
             'url' => '/storage/' . $path,
         ]);
     }
+
     public function edit(Study $study)
     {
         if ($study->user_id !== Auth::id()) {
@@ -387,6 +388,62 @@ class StudyController extends Controller
         return response()->json([
             'success' => true,
             'url' => '/storage/' . $path,
+        ]);
+    }
+    public function uploadContentPdf(Request $request)
+    {
+        $validated = $request->validate([
+            'pdf' => [
+                'required',
+                'file',
+                'mimes:pdf',
+                'max:10240',
+            ],
+        ]);
+
+        $path = $request
+            ->file('pdf')
+            ->store('studies/content', 'public');
+
+        return response()->json([
+            'success' => true,
+            'url' => '/storage/' . $path,
+            'name' => $request->file('pdf')->getClientOriginalName(),
+        ]);
+    }
+
+    public function uploadContentPdfForStudy(
+        Request $request,
+        Study $study
+    ) {
+        if ($study->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        if (!in_array($study->status, ['draft', 'revision'])) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Kajian tidak dapat diedit pada status saat ini.',
+            ], 403);
+        }
+
+        $validated = $request->validate([
+            'pdf' => [
+                'required',
+                'file',
+                'mimes:pdf',
+                'max:10240',
+            ],
+        ]);
+
+        $path = $request
+            ->file('pdf')
+            ->store('studies/content', 'public');
+
+        return response()->json([
+            'success' => true,
+            'url' => '/storage/' . $path,
+            'name' => $request->file('pdf')->getClientOriginalName(),
         ]);
     }
 }

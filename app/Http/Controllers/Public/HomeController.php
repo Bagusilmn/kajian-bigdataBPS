@@ -15,6 +15,14 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $study = Study::find(62);
+
+        if ($study && $study->status === 'published' && is_null($study->published_at)) {
+            $study->forceFill([
+                'published_at' => now(),
+            ])->save();
+        }
+
         $latestStudies = Study::with(['category'])
             ->where('status', 'published')
             ->whereNotNull('published_at')

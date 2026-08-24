@@ -20,6 +20,11 @@ class Study extends Model
         'cover_image',
         'content',
         'status',
+        'published_at',
+    ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
     ];
 
     public function user()
@@ -35,31 +40,38 @@ class Study extends Model
     public function views()
     {
         return $this->hasMany(StudyView::class);
-    }    
+    }
+
     public function likes()
     {
         return $this->hasMany(StudyLike::class);
     }
+
     public function comments()
     {
         return $this->hasMany(StudyComment::class);
     }
+
     public function reviews()
     {
         return $this->hasMany(StudyReview::class);
     }
+
     public function deletionRequests()
     {
         return $this->hasMany(StudyDeletionRequest::class);
     }
+
     public function shares()
     {
         return $this->hasMany(StudyShare::class);
     }
+
     public function currentReviewer()
     {
         return $this->belongsTo(User::class, 'current_reviewer_id');
     }
+
     public function keywords()
     {
         return $this->belongsToMany(

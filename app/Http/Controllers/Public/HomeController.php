@@ -15,17 +15,13 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $latestStudies = Study::latest('id')
-            ->take(10)
-            ->get([
-                'id',
-                'title',
-                'status',
-                'published_at',
-                'created_at',
-            ]);
-
-        dd($latestStudies->toArray());
+        $latestStudies = Study::with(['category'])
+            ->where('status', 'published')
+            ->whereNotNull('published_at')
+            ->orderByDesc('published_at')
+            ->orderByDesc('id')
+            ->take(3)
+            ->get();
 
         $featuredStudy = Study::with([
                 'category',

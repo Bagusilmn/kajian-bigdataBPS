@@ -19,7 +19,9 @@ class HomeController extends Controller
                 'category',
             ])
             ->where('status', 'published')
+            ->whereNotNull('published_at')
             ->orderByDesc('published_at')
+            ->orderByDesc('id')
             ->take(3)
             ->get();
 

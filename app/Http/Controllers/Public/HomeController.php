@@ -15,11 +15,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $latestStudies = Study::with(['category'])
-            ->where('status', 'published')
-            ->whereNotNull('published_at')
-            ->orderByDesc('published_at')
-            ->orderByDesc('id')
+        $latestStudies = Study::latest('id')
             ->take(10)
             ->get([
                 'id',

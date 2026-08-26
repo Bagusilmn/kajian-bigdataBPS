@@ -529,63 +529,131 @@ export default function StudyDetail({
 
 
                             <div className="detail-comment-list">
-
-                                {comments?.length > 0 ? (
-
-                                    comments.map((comment) => (
-
-                                        <article
-                                            key={comment.id}
-                                            className="detail-comment"
-                                        >
-
-                                            <div className="detail-comment__avatar">
-                                                {comment.user?.name
-                                                    ?.charAt(0)
-                                                    ?.toUpperCase() ?? 'U'}
-                                            </div>
-
-
-                                            <div className="detail-comment__body">
-
-                                                <div className="detail-comment__meta">
-
-                                                    <strong>
-                                                        {comment.user?.name ?? 'Pengguna'}
-                                                    </strong>
-
-                                                    <span>
-                                                        {comment.created_at
-                                                            ? new Date(
-                                                                comment.created_at
-                                                            ).toLocaleDateString(
-                                                                'id-ID',
-                                                                {
-                                                                    day: 'numeric',
-                                                                    month: 'short',
-                                                                    year: 'numeric',
-                                                                }
-                                                            )
-                                                            : ''}
-                                                    </span>
-
+                                {comments?.data?.length > 0 ? (
+                                    <>
+                                        {comments.data.map((comment) => (
+                                            <article
+                                                key={comment.id}
+                                                className="detail-comment"
+                                            >
+                                                <div className="detail-comment__avatar">
+                                                    {comment.user?.name
+                                                        ?.charAt(0)
+                                                        ?.toUpperCase() ?? 'U'}
                                                 </div>
 
+                                                <div className="detail-comment__body">
+                                                    <div className="detail-comment__meta">
+                                                        <strong>
+                                                            {comment.user?.name ?? 'Pengguna'}
+                                                        </strong>
 
-                                                <p>
-                                                    {comment.comment}
-                                                </p>
+                                                        <span>
+                                                            {comment.created_at
+                                                                ? new Date(
+                                                                    comment.created_at
+                                                                ).toLocaleDateString(
+                                                                    'id-ID',
+                                                                    {
+                                                                        day: 'numeric',
+                                                                        month: 'short',
+                                                                        year: 'numeric',
+                                                                    }
+                                                                )
+                                                                : ''}
+                                                        </span>
+                                                    </div>
 
+                                                    <p>
+                                                        {comment.comment}
+                                                    </p>
+                                                </div>
+                                            </article>
+                                        ))}
+
+                                        {/* PAGINATION */}
+                                        {comments.last_page > 1 && (
+                                            <div className="detail-comments-pagination">
+                                                <button
+                                                    type="button"
+                                                    disabled={!comments.prev_page_url}
+                                                    onClick={() => {
+                                                        if (comments.prev_page_url) {
+                                                            router.get(
+                                                                comments.prev_page_url,
+                                                                {},
+                                                                {
+                                                                    preserveScroll: true,
+                                                                    preserveState: true,
+                                                                }
+                                                            );
+                                                        }
+                                                    }}
+                                                >
+                                                    ← Sebelumnya
+                                                </button>
+
+                                                <div className="detail-comments-pagination__pages">
+                                                    {Array.from(
+                                                        {
+                                                            length: comments.last_page,
+                                                        },
+                                                        (_, index) => index + 1
+                                                    ).map((page) => (
+                                                        <button
+                                                            key={page}
+                                                            type="button"
+                                                            className={
+                                                                page ===
+                                                                comments.current_page
+                                                                    ? 'is-active'
+                                                                    : ''
+                                                            }
+                                                            onClick={() => {
+                                                                if (
+                                                                    page !==
+                                                                    comments.current_page
+                                                                ) {
+                                                                    router.get(
+                                                                        comments.path +
+                                                                            `?page=${page}`,
+                                                                        {},
+                                                                        {
+                                                                            preserveScroll: true,
+                                                                            preserveState: true,
+                                                                        }
+                                                                    );
+                                                                }
+                                                            }}
+                                                        >
+                                                            {page}
+                                                        </button>
+                                                    ))}
+                                                </div>
+
+                                                <button
+                                                    type="button"
+                                                    disabled={!comments.next_page_url}
+                                                    onClick={() => {
+                                                        if (comments.next_page_url) {
+                                                            router.get(
+                                                                comments.next_page_url,
+                                                                {},
+                                                                {
+                                                                    preserveScroll: true,
+                                                                    preserveState: true,
+                                                                }
+                                                            );
+                                                        }
+                                                    }}
+                                                >
+                                                    Berikutnya →
+                                                </button>
                                             </div>
-
-                                        </article>
-
-                                    ))
-
+                                        )}
+                                    </>
                                 ) : (
-
                                     <div className="detail-comments-empty">
-
                                         <h3>
                                             Belum ada komentar
                                         </h3>
@@ -594,11 +662,8 @@ export default function StudyDetail({
                                             Jadilah orang pertama yang memberikan
                                             tanggapan pada kajian ini.
                                         </p>
-
                                     </div>
-
                                 )}
-
                             </div>
 
                         </section>

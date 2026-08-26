@@ -10,28 +10,43 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $search = trim($request->input('search', ''));
+
         $users = User::query()
-            ->select('id', 'name', 'email', 'role', 'created_at')
+            ->select(
+                'id',
+                'name',
+                'email',
+                'role',
+                'created_at'
+            )
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%');
+                });
+            })
             ->latest()
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
+
         $totalUsers = User::count();
 
-        $totalResearchers = User::where('role', 'user')
-            ->count();
+        $totalResearchers = User::where('role', 'user')->count();
+        $totalReviewers = User::where('role', 'reviewer')->count();
+        $totalDirectors = User::where('role', 'director')->count();
 
-        $totalReviewers = User::where('role', 'reviewer')
-            ->count();
-
-        $totalDirectors = User::where('role', 'director')
-            ->count();
         return Inertia::render('Admin/Users/Index', [
             'users' => $users,
             'totalUsers' => $totalUsers,
             'totalResearchers' => $totalResearchers,
             'totalReviewers' => $totalReviewers,
             'totalDirectors' => $totalDirectors,
+            'filters' => [
+                'search' => $search,
+            ],
         ]);
     }
 

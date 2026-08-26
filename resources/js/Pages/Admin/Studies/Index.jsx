@@ -1,11 +1,30 @@
-import { useState } from 'react';
-import { useForm } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
+import { router, useForm } from '@inertiajs/react';
 import DashboardLayout from '../../../Layouts/DashboardLayout';
 
 export default function Index({
-    studies = [],
+    studies = {},
     deletionRequests = [],
+    filters = {},
 }) {
+    const [search, setSearch] = useState(filters.search ?? '');
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            router.get(
+                '/admin/studies',
+                search
+                    ? { search }
+                    : {},
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    replace: true,
+                }
+            );
+        }, 400);
+
+        return () => clearTimeout(timeout);
+    }, [search]);
     const [selectedRequest, setSelectedRequest] = useState(null);
 
     const rejectForm = useForm({
@@ -255,11 +274,20 @@ export default function Index({
                         </div>
 
                         <span className="admin-queue-count">
-                            {studies.length} kajian
+                            {studies.total ?? 0} kajian
                         </span>
 
                     </div>
 
+                    <div className="admin-search-wrapper">
+                        <input
+                            type="search"
+                            value={search}
+                            onChange={(event) => setSearch(event.target.value)}
+                            placeholder="Cari judul kajian..."
+                            className="admin-search-input"
+                        />
+                    </div>
 
                     <div className="admin-study-table-wrapper">
 
@@ -291,9 +319,8 @@ export default function Index({
 
                             <tbody>
 
-                                {studies.length > 0 ? (
-
-                                    studies.map((study) => (
+                                {studies.data?.length > 0 ? (
+                                    studies.data.map((study) => (
 
                                         <tr key={study.id}>
 
@@ -370,7 +397,82 @@ export default function Index({
                         </table>
 
                     </div>
+                    {studies.last_page > 1 && (
+                        <div className="admin-pagination">
+                            <button
+                                type="button"
+                                disabled={!studies.prev_page_url}
+                                onClick={() => {
+                                    if (studies.prev_page_url) {
+                                        router.get(
+                                            studies.prev_page_url,
+                                            {},
+                                            {
+                                                preserveState: true,
+                                                preserveScroll: true,
+                                            }
+                                        );
+                                    }
+                                }}
+                            >
+                                ← Sebelumnya
+                            </button>
 
+                            <div className="admin-pagination__pages">
+                                {Array.from(
+                                    { length: studies.last_page },
+                                    (_, index) => index + 1
+                                ).map((page) => (
+                                    <button
+                                        key={page}
+                                        type="button"
+                                        className={
+                                            page === studies.current_page
+                                                ? 'is-active'
+                                                : ''
+                                        }
+                                        onClick={() => {
+                                            if (page !== studies.current_page) {
+                                                router.get(
+                                                    studies.path + `?page=${page}${
+                                                        search
+                                                            ? `&search=${encodeURIComponent(search)}`
+                                                            : ''
+                                                    }`,
+                                                    {},
+                                                    {
+                                                        preserveState: true,
+                                                        preserveScroll: true,
+                                                    }
+                                                );
+                                            }
+                                        }}
+                                    >
+                                        {page}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <button
+                                type="button"
+                                disabled={!studies.next_page_url}
+                                onClick={() => {
+                                    if (studies.next_page_url) {
+                                        router.get(
+                                            studies.next_page_url,
+                                            {},
+                                            {
+                                                preserveState: true,
+                                                preserveScroll: true,
+                                            }
+                                        );
+                                    }
+                                }}
+                            >
+                                Berikutnya →
+                            </button>
+                        </div>
+                    )}
                 </section>
 
 

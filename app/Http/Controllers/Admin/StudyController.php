@@ -13,14 +13,23 @@ class StudyController extends Controller
     /**
      * Daftar kajian dan request penghapusan.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = trim($request->input('search', ''));
+
         $studies = Study::with([
                 'user',
                 'category',
             ])
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('excerpt', 'like', '%' . $search . '%');
+                });
+            })
             ->latest()
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
 
         $deletionRequests = StudyDeletionRequest::with([
                 'study',
@@ -33,6 +42,9 @@ class StudyController extends Controller
         return Inertia::render('Admin/Studies/Index', [
             'studies' => $studies,
             'deletionRequests' => $deletionRequests,
+            'filters' => [
+                'search' => $search,
+            ],
         ]);
     }
 

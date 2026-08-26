@@ -278,10 +278,10 @@ class StudyController extends Controller
             ->with('user:id,name')
             ->where('status', 'approved')
             ->latest()
-            ->get();
+            ->paginate(5)
+            ->withQueryString();
 
-        $totalComments = $comments->count();
-
+        $totalComments = $comments->total();
 
         /*
         |--------------------------------------------------------------------------

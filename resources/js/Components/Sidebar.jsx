@@ -1,12 +1,12 @@
+import { useState } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import BpsLogo from './BpsLogo';
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen = false, onClose }) {
     const { auth } = usePage().props;
     const currentUrl = usePage().url;
 
     const user = auth?.user;
-
     const role = user?.role ?? 'user';
 
     const menus = {
@@ -58,6 +58,7 @@ export default function Sidebar() {
                 href: '/admin/studies',
             },
         ],
+
         director: [
             {
                 label: 'Dashboard',
@@ -79,82 +80,126 @@ export default function Sidebar() {
         admin: 'Administrator',
     };
 
+    const handleNavigation = () => {
+        if (onClose) {
+            onClose();
+        }
+    };
+
     return (
-        <aside className="dashboard-sidebar">
-
-            <a
-                href="/"
-                className="dashboard-brand"
-            >
-
-                <span className="dashboard-brand__mark">
-                    <BpsLogo />
-                </span>
-
-                <span className="dashboard-brand__text">
-
-                    <strong>
-                        KAJIAN BIG DATA BPS
-                    </strong>
-
-                    <small>
-                        {roleLabel[role] ?? 'Portal Kajian'}
-                    </small>
-
-                </span>
-
-            </a>
-
-
-            <nav className="dashboard-nav">
-
-                {currentMenus.map((menu) => {
-
-                    const isActive =
-                        currentUrl === menu.href ||
-                        currentUrl.startsWith(`${menu.href}/`);
-
-                    return (
-                        <a
-                            key={menu.label}
-                            href={menu.href}
-                            className={`dashboard-nav__link ${
-                                isActive ? 'is-active' : ''
-                            }`}
-                        >
-                            {menu.label}
-                        </a>
-                    );
-                })}
-
-            </nav>
-
-
-            <div className="dashboard-sidebar__bottom">
-
-                <a
-                    href="/profile"
-                    className="dashboard-nav__link"
-                >
-                    Profil
-                </a>
-
+        <>
+            {/* Overlay khusus mobile */}
+            {isOpen && (
                 <button
                     type="button"
-                    className="dashboard-logout"
-                    onClick={() => router.post('/logout')}
-                >
-                    <span className="dashboard-logout__icon">
-                        ↪
-                    </span>
+                    className="dashboard-sidebar__overlay"
+                    onClick={onClose}
+                    aria-label="Tutup menu"
+                />
+            )}
 
-                    <span>
-                        Logout
-                    </span>
-                </button>
+            <aside
+                className={`dashboard-sidebar ${
+                    isOpen ? 'is-open' : ''
+                }`}
+            >
 
-            </div>
+                {/* Header sidebar */}
+                <div className="dashboard-sidebar__header">
 
-        </aside>
+                    <a
+                        href="/"
+                        className="dashboard-brand"
+                        onClick={handleNavigation}
+                    >
+
+                        <span className="dashboard-brand__mark">
+                            <BpsLogo />
+                        </span>
+
+                        <span className="dashboard-brand__text">
+                            <strong>
+                                KAJIAN BIG DATA BPS
+                            </strong>
+
+                            <small>
+                                {roleLabel[role] ?? 'Portal Kajian'}
+                            </small>
+                        </span>
+
+                    </a>
+
+                    {/* Tombol close mobile */}
+                    <button
+                        type="button"
+                        className="dashboard-sidebar__close"
+                        onClick={onClose}
+                        aria-label="Tutup menu"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <nav className="dashboard-nav">
+
+                    {currentMenus.map((menu) => {
+
+                        const isActive =
+                            currentUrl === menu.href ||
+                            currentUrl.startsWith(`${menu.href}/`);
+
+                        return (
+                            <a
+                                key={menu.label}
+                                href={menu.href}
+                                className={`dashboard-nav__link ${
+                                    isActive ? 'is-active' : ''
+                                }`}
+                                onClick={handleNavigation}
+                            >
+                                {menu.label}
+                            </a>
+                        );
+                    })}
+
+                </nav>
+
+
+                <div className="dashboard-sidebar__bottom">
+
+                    <a
+                        href="/profile"
+                        className="dashboard-nav__link"
+                        onClick={handleNavigation}
+                    >
+                        Profil
+                    </a>
+
+                    <button
+                        type="button"
+                        className="dashboard-logout"
+                        onClick={() => {
+                            if (onClose) {
+                                onClose();
+                            }
+
+                            router.post('/logout');
+                        }}
+                    >
+                        <span className="dashboard-logout__icon">
+                            ↪
+                        </span>
+
+                        <span>
+                            Logout
+                        </span>
+                    </button>
+
+                </div>
+
+            </aside>
+        </>
     );
 }

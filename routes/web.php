@@ -96,10 +96,8 @@ Route::middleware(['auth', 'role:user'])
             ->name('studies.content-image');   
         Route::get('/studies/{study}/edit', [UserStudyController::class, 'edit'])
             ->name('studies.edit');
-
         Route::patch('/studies/{study}', [UserStudyController::class, 'update'])
             ->name('studies.update');
-
         Route::patch('/studies/{study}/resubmit', [UserStudyController::class, 'resubmit'])
             ->name('studies.resubmit'); 
         Route::delete('/studies/{study}/deletion-request',[UserStudyController::class, 'requestDeletion'])

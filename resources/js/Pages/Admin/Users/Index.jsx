@@ -1,14 +1,33 @@
-import { useState } from 'react';
-import { useForm } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
+import { router, useForm } from '@inertiajs/react';
 import DashboardLayout from '../../../Layouts/DashboardLayout';
 
 export default function Index({
-    users = [],
+    users = {},
     totalUsers = 0,
     totalResearchers = 0,
     totalReviewers = 0,
     totalDirectors = 0,
+    filters = {},
 }) {
+    const [search, setSearch] = useState(filters.search ?? '');
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            router.get(
+                '/admin/users',
+                search
+                    ? { search }
+                    : {},
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    replace: true,
+                }
+            );
+        }, 400);
+
+        return () => clearTimeout(timeout);
+    }, [search]);
     const [showForm, setShowForm] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
 
@@ -191,11 +210,20 @@ export default function Index({
                         </div>
 
                         <span className="admin-queue-count">
-                            {users.length} pengguna
+                            {users.total ?? 0} pengguna
                         </span>
 
                     </div>
 
+                    <div className="admin-search-wrapper">
+                        <input
+                            type="search"
+                            value={search}
+                            onChange={(event) => setSearch(event.target.value)}
+                            placeholder="Cari nama atau email..."
+                            className="admin-search-input"
+                        />
+                    </div>
 
                     <div className="admin-user-table-wrapper">
 
@@ -227,9 +255,8 @@ export default function Index({
 
                             <tbody>
 
-                                {users.length > 0 ? (
-
-                                    users.map((user) => (
+                                {users.data?.length > 0 ? (
+                                    users.data.map((user) => (
 
                                         <tr key={user.id}>
 
@@ -323,6 +350,82 @@ export default function Index({
                         </table>
 
                     </div>
+                    {users.last_page > 1 && (
+                        <div className="admin-pagination">
+                            <button
+                                type="button"
+                                disabled={!users.prev_page_url}
+                                onClick={() => {
+                                    if (users.prev_page_url) {
+                                        router.get(
+                                            users.prev_page_url,
+                                            {},
+                                            {
+                                                preserveState: true,
+                                                preserveScroll: true,
+                                            }
+                                        );
+                                    }
+                                }}
+                            >
+                                ← Sebelumnya
+                            </button>
+
+                            <div className="admin-pagination__pages">
+                                {Array.from(
+                                    { length: users.last_page },
+                                    (_, index) => index + 1
+                                ).map((page) => (
+                                    <button
+                                        key={page}
+                                        type="button"
+                                        className={
+                                            page === users.current_page
+                                                ? 'is-active'
+                                                : ''
+                                        }
+                                        onClick={() => {
+                                            if (page !== users.current_page) {
+                                                router.get(
+                                                    users.path + `?page=${page}${
+                                                        search
+                                                            ? `&search=${encodeURIComponent(search)}`
+                                                            : ''
+                                                    }`,
+                                                    {},
+                                                    {
+                                                        preserveState: true,
+                                                        preserveScroll: true,
+                                                    }
+                                                );
+                                            }
+                                        }}
+                                    >
+                                        {page}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <button
+                                type="button"
+                                disabled={!users.next_page_url}
+                                onClick={() => {
+                                    if (users.next_page_url) {
+                                        router.get(
+                                            users.next_page_url,
+                                            {},
+                                            {
+                                                preserveState: true,
+                                                preserveScroll: true,
+                                            }
+                                        );
+                                    }
+                                }}
+                            >
+                                Berikutnya →
+                            </button>
+                        </div>
+                    )}
 
                 </section>
 

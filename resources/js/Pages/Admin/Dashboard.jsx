@@ -164,12 +164,13 @@ export default function Dashboard({
 
             <div className="admin-dashboard">
 
-                {/* HEADER */}
+                {/* =================================================
+                    HEADER
+                ================================================= */}
 
-                <div className="admin-header">
+                <header className="admin-header">
 
                     <div>
-
                         <div className="dashboard-eyebrow">
                             ADMIN DASHBOARD
                         </div>
@@ -182,275 +183,236 @@ export default function Dashboard({
                             Kelola pengguna, kategori, kajian, dan pantau
                             aktivitas platform Kajian Big Data BPS.
                         </p>
+                    </div>
+
+                </header>
+
+
+                {/* =================================================
+                    OVERVIEW
+                ================================================= */}
+
+                <section className="admin-overview">
+
+                    <div className="admin-section-label">
+                        OVERVIEW
+                    </div>
+
+                    <div className="admin-overview-grid">
+
+                        <div className="admin-overview-card admin-overview-card--primary">
+                            <span>Total Kajian</span>
+
+                            <strong>
+                                {Number(totalStudies).toLocaleString('id-ID')}
+                            </strong>
+
+                            <small>
+                                Seluruh kajian di platform
+                            </small>
+                        </div>
+
+
+                        <div className="admin-overview-card">
+                            <span>Published</span>
+
+                            <strong>
+                                {Number(publishedStudies).toLocaleString('id-ID')}
+                            </strong>
+
+                            <small>
+                                Kajian telah diterbitkan
+                            </small>
+                        </div>
+
+
+                        <div className="admin-overview-card">
+                            <span>Menunggu Review</span>
+
+                            <strong>
+                                {Number(submittedStudies).toLocaleString('id-ID')}
+                            </strong>
+
+                            <small>
+                                Menunggu reviewer
+                            </small>
+                        </div>
+
+
+                        <div className="admin-overview-card">
+                            <span>Total Views</span>
+
+                            <strong>
+                                {Number(totalViews).toLocaleString('id-ID')}
+                            </strong>
+
+                            <small>
+                                Seluruh kunjungan kajian
+                            </small>
+                        </div>
 
                     </div>
 
-                </div>
+                </section>
 
 
-                {/* STATS */}
+                {/* =================================================
+                    SECONDARY METRICS
+                ================================================= */}
 
-                <div className="admin-stats">
+                <section className="admin-secondary">
 
-                    <div className="admin-stat-card">
-                        <span>
-                            TOTAL KAJIAN
-                        </span>
-
-                        <strong>
-                            {totalStudies}
-                        </strong>
-
-                        <small>
-                            Semua kajian
-                        </small>
-                    </div>
-
-
-                    <div className="admin-stat-card">
-                        <span>
-                            PUBLISHED
-                        </span>
-
-                        <strong>
-                            {publishedStudies}
-                        </strong>
-
-                        <small>
-                            Sudah diterbitkan
-                        </small>
-                    </div>
-
-
-                    <div className="admin-stat-card">
-                        <span>
-                            MENUNGGU REVIEW
-                        </span>
-
-                        <strong>
-                            {submittedStudies}
-                        </strong>
-
-                        <small>
-                            Menunggu reviewer
-                        </small>
-                    </div>
-
-
-                    <div className="admin-stat-card">
-                        <span>
-                            UNDER REVIEW
-                        </span>
-
-                        <strong>
-                            {underReviewStudies}
-                        </strong>
-
-                        <small>
-                            Sedang direview
-                        </small>
-                    </div>
-                    <div className="admin-stat-card">
-                        <span>
-                            REVIEW DIREKTUR
-                        </span>
-
-                        <strong>
-                            {directorReviewStudies}
-                        </strong>
-
-                        <small>
-                            Menunggu keputusan final
-                        </small>
-                    </div>
-                    <div className="admin-stat-card">
-                        <span>
-                            REJECTED
-                        </span>
-
-                        <strong>
-                            {rejectedStudies}
-                        </strong>
-
-                        <small>
-                            Kajian ditolak
-                        </small>
-                    </div>
-                    <div className="admin-stat-card">
-                        <span>
-                            REVISION
-                        </span>
-
-                        <strong>
-                            {revisionStudies}
-                        </strong>
-
-                        <small>
-                            Perlu perbaikan
-                        </small>
-                    </div>
-
-
-                    <div className="admin-stat-card admin-stat-card--accent">
-                        <span>
-                            TOTAL VIEWS
-                        </span>
-
-                        <strong>
-                            {Number(totalViews).toLocaleString('id-ID')}
-                        </strong>
-
-                        <small>
-                            Semua kajian
-                        </small>
-                    </div>
-
-
-                    <div className="admin-stat-card">
-                        <span>
-                            UNIQUE VISITORS
-                        </span>
+                    <div className="admin-secondary-item">
+                        <span>Unique Visitors</span>
 
                         <strong>
                             {Number(uniqueVisitors).toLocaleString('id-ID')}
                         </strong>
-
-                        <small>
-                            Pengunjung unik
-                        </small>
                     </div>
-                    <div className="admin-stat-card">
-                        <span>
-                            TOTAL LIKES
-                        </span>
+
+
+                    <div className="admin-secondary-item">
+                        <span>Total Likes</span>
 
                         <strong>
                             {Number(totalLikes).toLocaleString('id-ID')}
                         </strong>
-
-                        <small>
-                            Semua kajian
-                        </small>
                     </div>
 
 
-                    <div className="admin-stat-card">
-                        <span>
-                            TOTAL COMMENTS
-                        </span>
+                    <div className="admin-secondary-item">
+                        <span>Total Comments</span>
 
                         <strong>
                             {Number(totalComments).toLocaleString('id-ID')}
                         </strong>
-
-                        <small>
-                            Komentar publik
-                        </small>
                     </div>
 
 
-                    <div className="admin-stat-card">
-                        <span>
-                            TOTAL SHARES
-                        </span>
+                    <div className="admin-secondary-item">
+                        <span>Total Shares</span>
 
                         <strong>
                             {Number(totalShares).toLocaleString('id-ID')}
                         </strong>
-
-                        <small>
-                            Semua platform
-                        </small>
                     </div>
-                </div>
 
-                {/* ANALYTICS */}
-
-                <div className="admin-analytics-grid">
-
-                    <section className="admin-section">
-                        <div className="admin-section__heading">
-
-                            <div>
-                                <div className="dashboard-eyebrow">
-                                    TRAFFIC ANALYTICS
-                                </div>
-
-                                <h2>
-                                    Kunjungan 7 Hari Terakhir
-                                </h2>
-                            </div>
-
-                            <div className="admin-chart-summary">
-                                {Number(totalViews).toLocaleString('id-ID')}
-                                {' '}
-                                total views
-                            </div>
-
-                        </div>
-
-                        <div className="admin-chart-card">
-                            <div className="admin-chart">
-                                <canvas ref={chartRef} />
-                            </div>
-                        </div>
-                    </section>
+                </section>
 
 
-                    <section className="admin-section">
-                        <div className="admin-section__heading">
-
-                            <div>
-                                <div className="dashboard-eyebrow">
-                                    STUDY STATUS
-                                </div>
-
-                                <h2>
-                                    Distribusi Status Kajian
-                                </h2>
-                            </div>
-
-                            <div className="admin-chart-summary">
-                                {Number(totalStudies).toLocaleString('id-ID')}
-                                {' '}
-                                total kajian
-                            </div>
-
-                        </div>
-
-                        <div className="admin-chart-card">
-                            <div className="admin-chart admin-chart--small">
-                                <canvas ref={statusChartRef} />
-                            </div>
-                        </div>
-                    </section>
-
-                </div>
-
-                {/* TOP STUDIES */}
+                {/* =================================================
+                    ANALYTICS
+                ================================================= */}
 
                 <section className="admin-section">
 
                     <div className="admin-section__heading">
 
                         <div>
+                            <div className="admin-section-label">
+                                ANALYTICS
+                            </div>
 
-                            <div className="dashboard-eyebrow">
+                            <h2>
+                                Platform activity
+                            </h2>
+                        </div>
+
+                        <span className="admin-chart-summary">
+                            Aktivitas 7 hari terakhir
+                        </span>
+
+                    </div>
+
+
+                    <div className="admin-analytics-grid">
+
+                        {/* TRAFFIC */}
+
+                        <div className="admin-chart-card">
+
+                            <div className="admin-card-heading">
+
+                                <div>
+                                    <strong>
+                                        Traffic
+                                    </strong>
+
+                                    <span>
+                                        Views kajian
+                                    </span>
+                                </div>
+
+                                <span className="admin-card-period">
+                                    7 hari
+                                </span>
+
+                            </div>
+
+                            <div className="admin-chart">
+                                <canvas ref={chartRef} />
+                            </div>
+
+                        </div>
+
+
+                        {/* STATUS */}
+
+                        <div className="admin-chart-card">
+
+                            <div className="admin-card-heading">
+
+                                <div>
+                                    <strong>
+                                        Status Kajian
+                                    </strong>
+
+                                    <span>
+                                        Distribusi workflow
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <div className="admin-chart admin-chart--status">
+                                <canvas ref={statusChartRef} />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                {/* =================================================
+                    TOP STUDIES
+                ================================================= */}
+
+                <section className="admin-section">
+
+                    <div className="admin-section__heading">
+
+                        <div>
+                            <div className="admin-section-label">
                                 PERFORMANCE
                             </div>
 
                             <h2>
-                                Kajian dengan Engagement Tertinggi
+                                Kajian terpopuler
                             </h2>
-
                         </div>
+
+                        <span className="admin-chart-summary">
+                            Berdasarkan engagement
+                        </span>
 
                     </div>
 
 
                     <div className="admin-top-studies">
 
-                        {topStudies?.length > 0 ? (
+                        {topStudies.length > 0 ? (
 
                             topStudies.map((study, index) => (
 
@@ -471,7 +433,7 @@ export default function Dashboard({
                                         </h3>
 
                                         <span>
-                                            {study.category?.name ?? 'Kajian'}
+                                            {study.category?.name ?? 'Tanpa kategori'}
                                         </span>
 
                                     </div>
@@ -481,9 +443,7 @@ export default function Dashboard({
 
                                         <div>
                                             <strong>
-                                                {Number(
-                                                    study.views_count
-                                                ).toLocaleString('id-ID')}
+                                                {Number(study.views_count).toLocaleString('id-ID')}
                                             </strong>
 
                                             <small>
@@ -494,56 +454,12 @@ export default function Dashboard({
 
                                         <div>
                                             <strong>
-                                                {Number(
-                                                    study.likes_count
-                                                ).toLocaleString('id-ID')}
-                                            </strong>
-
-                                            <small>
-                                                likes
-                                            </small>
-                                        </div>
-
-
-                                        <div>
-                                            <strong>
-                                                {Number(
-                                                    study.comments_count
-                                                ).toLocaleString('id-ID')}
-                                            </strong>
-
-                                            <small>
-                                                comments
-                                            </small>
-                                        </div>
-
-
-                                        <div>
-                                            <strong>
-                                                {Number(
-                                                    study.shares_count
-                                                ).toLocaleString('id-ID')}
-                                            </strong>
-
-                                            <small>
-                                                shares
-                                            </small>
-                                        </div>
-
-
-                                        <div className="admin-top-study__engagement">
-
-                                            <strong>
-                                                {Number(
-                                                    study.engagement_rate
-                                                ).toLocaleString('id-ID')}
-                                                %
+                                                {Number(study.engagement_rate ?? 0).toFixed(1)}%
                                             </strong>
 
                                             <small>
                                                 engagement
                                             </small>
-
                                         </div>
 
                                     </div>
@@ -555,7 +471,7 @@ export default function Dashboard({
                         ) : (
 
                             <div className="admin-empty">
-                                Belum ada data kajian populer.
+                                Belum ada kajian yang dapat ditampilkan.
                             </div>
 
                         )}
@@ -564,17 +480,22 @@ export default function Dashboard({
 
                 </section>
 
-                <section className="admin-section">
+
+                {/* =================================================
+                    MANAGEMENT
+                ================================================= */}
+
+                <section className="admin-section admin-management">
 
                     <div className="admin-section__heading">
 
                         <div>
-                            <div className="dashboard-eyebrow">
+                            <div className="admin-section-label">
                                 MANAGEMENT
                             </div>
 
                             <h2>
-                                Kelola Platform
+                                Kelola platform
                             </h2>
                         </div>
 
@@ -587,21 +508,23 @@ export default function Dashboard({
                             href="/admin/users"
                             className="admin-management-card"
                         >
-                            <span className="admin-management-card__eyebrow">
-                                USER MANAGEMENT
-                            </span>
+                            <div>
+                                <span className="admin-management-card__eyebrow">
+                                    USERS
+                                </span>
 
-                            <h3>
-                                Kelola Pengguna
-                            </h3>
+                                <h3>
+                                    Pengguna
+                                </h3>
 
-                            <p>
-                                Tambah pengguna, ubah role, dan kelola
-                                akun pengguna platform.
-                            </p>
+                                <p>
+                                    Kelola akun peneliti, reviewer,
+                                    direktur, dan administrator.
+                                </p>
+                            </div>
 
-                            <span className="admin-management-card__link">
-                                Kelola User →
+                            <span className="admin-management-card__arrow">
+                                →
                             </span>
                         </a>
 
@@ -610,21 +533,23 @@ export default function Dashboard({
                             href="/admin/categories"
                             className="admin-management-card"
                         >
-                            <span className="admin-management-card__eyebrow">
-                                CATEGORY MANAGEMENT
-                            </span>
+                            <div>
+                                <span className="admin-management-card__eyebrow">
+                                    CONTENT
+                                </span>
 
-                            <h3>
-                                Kelola Kategori
-                            </h3>
+                                <h3>
+                                    Kategori
+                                </h3>
 
-                            <p>
-                                Tambahkan dan kelola kategori kajian
-                                Big Data.
-                            </p>
+                                <p>
+                                    Kelola kategori yang digunakan
+                                    pada kajian.
+                                </p>
+                            </div>
 
-                            <span className="admin-management-card__link">
-                                Kelola Kategori →
+                            <span className="admin-management-card__arrow">
+                                →
                             </span>
                         </a>
 
@@ -633,21 +558,23 @@ export default function Dashboard({
                             href="/admin/studies"
                             className="admin-management-card"
                         >
-                            <span className="admin-management-card__eyebrow">
-                                STUDY MANAGEMENT
-                            </span>
+                            <div>
+                                <span className="admin-management-card__eyebrow">
+                                    STUDIES
+                                </span>
 
-                            <h3>
-                                Kelola Kajian
-                            </h3>
+                                <h3>
+                                    Kelola Kajian
+                                </h3>
 
-                            <p>
-                                Pantau kajian yang masuk dan tangani
-                                permintaan penghapusan.
-                            </p>
+                                <p>
+                                    Pantau seluruh kajian dan
+                                    request penghapusan.
+                                </p>
+                            </div>
 
-                            <span className="admin-management-card__link">
-                                Kelola Kajian →
+                            <span className="admin-management-card__arrow">
+                                →
                             </span>
                         </a>
 

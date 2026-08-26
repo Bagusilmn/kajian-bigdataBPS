@@ -1,0 +1,105 @@
+{
+  "node_modules/laravel-vite-plugin/inertia-helpers/index.js": [],
+  "resources/js/Components/BpsLogo.jsx": [
+    "/build/assets/BpsLogo-Bc2wSHH6.js"
+  ],
+  "resources/js/Components/Footer.jsx": [
+    "/build/assets/PublicLayout-C3vlCbjw.js"
+  ],
+  "resources/js/Components/Navbar.jsx": [
+    "/build/assets/PublicLayout-C3vlCbjw.js"
+  ],
+  "resources/js/Components/Sidebar.jsx": [
+    "/build/assets/DashboardLayout-DP3XBUYL.js"
+  ],
+  "resources/js/Components/StudyCard.jsx": [
+    "/build/assets/StudyCard-Gk9iry7L.js"
+  ],
+  "resources/js/Components/TopicCard.jsx": [
+    "/build/assets/Home-C7PSOsKE.js"
+  ],
+  "resources/js/Layouts/DashboardLayout.jsx": [
+    "/build/assets/DashboardLayout-DP3XBUYL.js"
+  ],
+  "resources/js/Layouts/PublicLayout.jsx": [
+    "/build/assets/PublicLayout-C3vlCbjw.js"
+  ],
+  "resources/js/Pages/Admin/Categories/Index.jsx": [
+    "/build/assets/Index-BLGUF5h4.js"
+  ],
+  "resources/js/Pages/Admin/Dashboard.jsx": [
+    "/build/assets/Dashboard-BSGrUsRL.js"
+  ],
+  "resources/js/Pages/Admin/Studies/Index.jsx": [
+    "/build/assets/Index-BzKJm7uK.js"
+  ],
+  "resources/js/Pages/Admin/Users/Index.jsx": [
+    "/build/assets/Index-DiRwXn4x.js"
+  ],
+  "resources/js/Pages/Auth/ConfirmPassword.jsx": [
+    "/build/assets/ConfirmPassword-DD0uasoZ.js"
+  ],
+  "resources/js/Pages/Auth/ForgotPassword.jsx": [
+    "/build/assets/ForgotPassword-TyLKE0bs.js"
+  ],
+  "resources/js/Pages/Auth/Login.jsx": [
+    "/build/assets/Login-DDyaps6U.js"
+  ],
+  "resources/js/Pages/Auth/Register.jsx": [
+    "/build/assets/Register-CfabkUGP.js"
+  ],
+  "resources/js/Pages/Auth/ResetPassword.jsx": [
+    "/build/assets/ResetPassword-CHsJ6x_U.js"
+  ],
+  "resources/js/Pages/Auth/VerifyEmail.jsx": [
+    "/build/assets/VerifyEmail-B1hs3Vhl.js"
+  ],
+  "resources/js/Pages/Director/Analytics.jsx": [
+    "/build/assets/Analytics-DkjnmMJ3.js"
+  ],
+  "resources/js/Pages/Director/Dashboard.jsx": [
+    "/build/assets/Dashboard-ysNV2qce.js"
+  ],
+  "resources/js/Pages/Director/StudyReview.jsx": [
+    "/build/assets/StudyReview-8nImwItm.js"
+  ],
+  "resources/js/Pages/Profile/Edit.jsx": [
+    "/build/assets/Edit-BducKNM6.js"
+  ],
+  "resources/js/Pages/Public/Home.jsx": [
+    "/build/assets/Home-C7PSOsKE.js"
+  ],
+  "resources/js/Pages/Public/Studies.jsx": [
+    "/build/assets/Studies-sM0URmMz.js"
+  ],
+  "resources/js/Pages/Public/StudyDetail.jsx": [
+    "/build/assets/StudyDetail-BAvzZXx6.js"
+  ],
+  "resources/js/Pages/Reviewer/ActiveStudies.jsx": [
+    "/build/assets/ActiveStudies-BcH2zrWY.js"
+  ],
+  "resources/js/Pages/Reviewer/Analytics.jsx": [
+    "/build/assets/Analytics-C-zA7_I0.js"
+  ],
+  "resources/js/Pages/Reviewer/Dashboard.jsx": [
+    "/build/assets/Dashboard-DJdTM-RB.js"
+  ],
+  "resources/js/Pages/Reviewer/StudyReview.jsx": [
+    "/build/assets/StudyReview-BsSz5tMS.js"
+  ],
+  "resources/js/Pages/User/Analytics.jsx": [
+    "/build/assets/Analytics-yQJNtmUu.js"
+  ],
+  "resources/js/Pages/User/Dashboard.jsx": [
+    "/build/assets/Dashboard-mq8c82Qj.js"
+  ],
+  "resources/js/Pages/User/Studies/Create.jsx": [
+    "/build/assets/Create-UbAR8s2Z.js",
+    "/build/assets/resize-BXQemLSE.css"
+  ],
+  "resources/js/Pages/User/Studies/Edit.jsx": [
+    "/build/assets/Edit-nteclrrq.js",
+    "/build/assets/resize-BXQemLSE.css"
+  ],
+  "resources/js/ssr.jsx": []
+}

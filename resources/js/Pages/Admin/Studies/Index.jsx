@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
 import { router, useForm } from '@inertiajs/react';
 import DashboardLayout from '../../../Layouts/DashboardLayout';
+import { useFeedback } from '../../../Components/FeedbackProvider';
 
 export default function Index({
     studies = {},
     deletionRequests = [],
     filters = {},
 }) {
+    const {
+        openConfirm,
+    } = useFeedback();
     const [search, setSearch] = useState(filters.search ?? '');
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -46,17 +50,23 @@ export default function Index({
     };
 
     const approveDeletion = (request) => {
-        const confirmed = window.confirm(
-            `Setujui penghapusan kajian "${request.study?.title}"?`
-        );
 
-        if (!confirmed) {
-            return;
-        }
+        openConfirm({
+            title: 'Setujui Penghapusan?',
+            message:
+                `Kajian "${request.study?.title}" akan dihapus dari sistem.`,
+            confirmText: 'Ya, Hapus',
+            cancelText: 'Batal',
+            danger: true,
 
-        rejectForm.patch(
-            `/admin/deletion-requests/${request.id}/approve`
-        );
+            onConfirm: () => {
+
+                rejectForm.patch(
+                    `/admin/deletion-requests/${request.id}/approve`
+                );
+
+            },
+        });
     };
 
     const submitReject = (event) => {

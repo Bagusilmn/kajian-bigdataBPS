@@ -4,21 +4,38 @@ export default function TopicCard({ category, index }) {
             href={`/kajian?category=${category.id}`}
             className="topic-card"
         >
-            <span className="topic-card__number">
-                {String(index + 1).padStart(2, '0')}
-            </span>
+            <div className="topic-card__image">
+                {category.image ? (
+                    <img
+                        src={`/storage/${category.image}`}
+                        alt={category.name}
+                    />
+                ) : (
+                    <div className="topic-card__placeholder" />
+                )}
+            </div>
 
-            <h3 className="topic-card__title">
-                {category.name}
-            </h3>
+            <div className="topic-card__overlay" />
 
-            <span className="topic-card__count">
-                {category.studies_count ?? 0} kajian
-            </span>
+            <div className="topic-card__content">
+                <span className="topic-card__number">
+                    {String(index + 1).padStart(2, '0')}
+                </span>
 
-            <span className="topic-card__arrow">
-                →
-            </span>
+                <h3 className="topic-card__title">
+                    {category.name}
+                </h3>
+
+                <div className="topic-card__bottom">
+                    <span className="topic-card__count">
+                        {category.studies_count ?? 0} kajian
+                    </span>
+
+                    <span className="topic-card__arrow">
+                        →
+                    </span>
+                </div>
+            </div>
         </a>
     );
 }

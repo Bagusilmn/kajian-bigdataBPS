@@ -6,8 +6,12 @@ export default function ActiveStudies({ studies = [] }) {
 
             <div className="reviewer-dashboard">
 
+                {/* HEADER */}
+
                 <div className="reviewer-header">
+
                     <div>
+
                         <div className="dashboard-eyebrow">
                             CURRENT REVIEWS
                         </div>
@@ -19,84 +23,123 @@ export default function ActiveStudies({ studies = [] }) {
                         <p>
                             Kajian yang sedang kamu tangani untuk proses review.
                         </p>
+
                     </div>
+
                 </div>
 
 
-                {studies.length > 0 ? (
+                {/* STUDIES */}
 
-                    <div className="user-study-grid">
+                <section className="reviewer-section">
 
-                        {studies.map((study) => (
+                    <div className="reviewer-section__heading">
 
-                            <a
-                                key={study.id}
-                                href={`/reviewer/studies/${study.id}`}
-                                className="user-study-card"
-                            >
+                        <div>
 
-                                <div className="user-study-card__image">
+                            <div className="dashboard-eyebrow">
+                                ACTIVE STUDIES
+                            </div>
 
-                                    {study.cover_image ? (
+                            <h2>
+                                Kajian yang Sedang Ditangani
+                            </h2>
 
-                                        <img
-                                            src={`/storage/${study.cover_image}`}
-                                            alt={study.title}
-                                        />
+                        </div>
 
-                                    ) : (
+                        <span className="reviewer-study-count">
+                            {studies.length} kajian
+                        </span>
 
-                                        <div className="user-study-card__placeholder" />
-
-                                    )}
-
-                                    <span>
-                                        {study.category?.name ?? 'Kajian'}
-                                    </span>
-
-                                </div>
+                    </div>
 
 
-                                <div className="user-study-card__content">
+                    {studies.length > 0 ? (
 
-                                    <span className="user-study-card__status">
-                                        Under Review
-                                    </span>
+                        <div className="user-study-grid">
 
-                                    <h3>
-                                        {study.title}
-                                    </h3>
+                            {studies.map((study) => (
 
-                                    <p>
-                                        {study.excerpt}
-                                    </p>
+                                <a
+                                    key={study.id}
+                                    href={`/reviewer/studies/${study.id}`}
+                                    className="user-study-card"
+                                >
 
-                                    <div className="user-study-card__footer">
+                                    {/* IMAGE */}
+
+                                    <div className="user-study-card__image">
+
+                                        {study.cover_image ? (
+
+                                            <img
+                                                src={`/storage/${study.cover_image}`}
+                                                alt={study.title}
+                                            />
+
+                                        ) : (
+
+                                            <div className="user-study-card__placeholder" />
+
+                                        )}
 
                                         <span>
-                                            {study.user?.name ?? 'Peneliti'}
-                                        </span>
-
-                                        <span className="user-study-link">
-                                            Lanjut Review →
+                                            {study.category?.name ?? 'Kajian'}
                                         </span>
 
                                     </div>
 
-                                </div>
 
-                            </a>
+                                    {/* CONTENT */}
 
-                        ))}
+                                    <div className="user-study-card__content">
 
-                    </div>
-                ) : (
+                                        <span className="user-study-card__status">
+                                            Under Review
+                                        </span>
 
-                    <div className="reviewer-empty">
-                        Tidak ada kajian yang sedang direview.
-                    </div>
+                                        <h3>
+                                            {study.title}
+                                        </h3>
 
-                )}
+                                        <p>
+                                            {study.excerpt || 'Tidak ada ringkasan kajian.'}
+                                        </p>
+
+
+                                        {/* FOOTER */}
+
+                                        <div className="user-study-card__footer">
+
+                                            <span>
+                                                {study.user?.name ?? 'Peneliti'}
+                                            </span>
+
+                                            <span className="user-study-link">
+                                                Lanjut Review →
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </a>
+
+                            ))}
+
+                        </div>
+
+                    ) : (
+
+                        <div className="reviewer-empty">
+
+                            Tidak ada kajian yang sedang direview.
+
+                        </div>
+
+                    )}
+
+                </section>
 
             </div>
 

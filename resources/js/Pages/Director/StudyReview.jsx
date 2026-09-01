@@ -1,32 +1,55 @@
 import { useForm } from '@inertiajs/react';
 import DashboardLayout from '../../Layouts/DashboardLayout';
+import { useFeedback } from '../../Components/FeedbackProvider';
 
 export default function StudyReview({ study }) {
+
+    const {
+        openConfirm,
+    } = useFeedback();
 
     const revisionForm = useForm({
         notes: '',
     });
 
     const actionForm = useForm({});
-
     const approve = () => {
-        if (!window.confirm('Terbitkan kajian ini?')) {
-            return;
-        }
 
-        actionForm.patch(
-            `/director/studies/${study.id}/approve`
-        );
+        openConfirm({
+            title: 'Terbitkan Kajian?',
+            message:
+                'Kajian ini akan diterbitkan dan dapat dilihat oleh publik.',
+            confirmText: 'Ya, Terbitkan',
+            cancelText: 'Batal',
+
+            onConfirm: () => {
+
+                actionForm.patch(
+                    `/director/studies/${study.id}/approve`
+                );
+
+            },
+        });
     };
 
     const reject = () => {
-        if (!window.confirm('Tolak kajian ini?')) {
-            return;
-        }
 
-        actionForm.patch(
-            `/director/studies/${study.id}/reject`
-        );
+        openConfirm({
+            title: 'Tolak Kajian?',
+            message:
+                'Kajian ini akan ditolak dari proses publikasi.',
+            confirmText: 'Ya, Tolak',
+            cancelText: 'Batal',
+            danger: true,
+
+            onConfirm: () => {
+
+                actionForm.patch(
+                    `/director/studies/${study.id}/reject`
+                );
+
+            },
+        });
     };
 
     const requestRevision = (event) => {

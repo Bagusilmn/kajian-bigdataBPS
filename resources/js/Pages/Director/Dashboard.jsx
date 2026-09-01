@@ -9,11 +9,14 @@ export default function Dashboard({
     return (
         <DashboardLayout>
 
-            <div className="user-dashboard">
+            <div className="director-dashboard">
 
-                <div className="dashboard-header">
+                {/* HEADER */}
+
+                <div className="director-header">
 
                     <div>
+
                         <div className="dashboard-eyebrow">
                             DIRECTOR REVIEW
                         </div>
@@ -25,14 +28,17 @@ export default function Dashboard({
                         <p>
                             Review final kajian sebelum diterbitkan.
                         </p>
+
                     </div>
 
                 </div>
 
 
-                <div className="dashboard-stats">
+                {/* STATISTICS */}
 
-                    <div className="dashboard-stat">
+                <div className="director-stats">
+
+                    <div className="director-stat">
                         <span>
                             MENUNGGU REVIEW
                         </span>
@@ -47,7 +53,7 @@ export default function Dashboard({
                     </div>
 
 
-                    <div className="dashboard-stat">
+                    <div className="director-stat">
                         <span>
                             REVISION
                         </span>
@@ -62,7 +68,7 @@ export default function Dashboard({
                     </div>
 
 
-                    <div className="dashboard-stat">
+                    <div className="director-stat">
                         <span>
                             PUBLISHED
                         </span>
@@ -77,7 +83,7 @@ export default function Dashboard({
                     </div>
 
 
-                    <div className="dashboard-stat">
+                    <div className="director-stat">
                         <span>
                             REJECTED
                         </span>
@@ -94,11 +100,14 @@ export default function Dashboard({
                 </div>
 
 
-                <section className="user-studies-section">
+                {/* FINAL REVIEW */}
 
-                    <div className="user-studies-heading">
+                <section className="director-section">
+
+                    <div className="director-section__heading">
 
                         <div>
+
                             <div className="dashboard-eyebrow">
                                 FINAL REVIEW
                             </div>
@@ -106,6 +115,7 @@ export default function Dashboard({
                             <h2>
                                 Kajian Menunggu Keputusan
                             </h2>
+
                         </div>
 
                     </div>
@@ -113,7 +123,7 @@ export default function Dashboard({
 
                     {directorStudies.length === 0 ? (
 
-                        <div className="studies-empty">
+                        <div className="director-empty">
 
                             <h2>
                                 Tidak ada kajian
@@ -128,17 +138,17 @@ export default function Dashboard({
 
                     ) : (
 
-                        <div className="user-study-grid">
+                        <div className="director-study-grid">
 
                             {directorStudies.map((study) => (
 
                                 <a
                                     key={study.id}
                                     href={`/director/studies/${study.id}`}
-                                    className="user-study-card"
+                                    className="director-study-card"
                                 >
 
-                                    <div className="user-study-card__image">
+                                    <div className="director-study-card__image">
 
                                         {study.cover_image ? (
 
@@ -149,7 +159,7 @@ export default function Dashboard({
 
                                         ) : (
 
-                                            <div className="user-study-card__placeholder" />
+                                            <div className="director-study-card__placeholder" />
 
                                         )}
 
@@ -160,9 +170,9 @@ export default function Dashboard({
                                     </div>
 
 
-                                    <div className="user-study-card__content">
+                                    <div className="director-study-card__content">
 
-                                        <span className="user-study-card__status">
+                                        <span className="director-study-card__status">
                                             Review Final
                                         </span>
 
@@ -174,13 +184,13 @@ export default function Dashboard({
                                             {study.excerpt}
                                         </p>
 
-                                        <div className="user-study-card__footer">
+                                        <div className="director-study-card__footer">
 
                                             <span>
                                                 {study.user?.name ?? 'Peneliti'}
                                             </span>
 
-                                            <span className="user-study-link">
+                                            <span className="director-study-link">
                                                 Review →
                                             </span>
 

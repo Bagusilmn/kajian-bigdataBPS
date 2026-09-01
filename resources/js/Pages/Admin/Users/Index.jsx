@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { router, useForm } from '@inertiajs/react';
 import DashboardLayout from '../../../Layouts/DashboardLayout';
+import { useFeedback } from '../../../Components/FeedbackProvider';
 
 export default function Index({
     users = {},
@@ -10,6 +11,9 @@ export default function Index({
     totalDirectors = 0,
     filters = {},
 }) {
+    const {
+        openConfirm,
+    } = useFeedback();
     const [search, setSearch] = useState(filters.search ?? '');
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -89,17 +93,25 @@ export default function Index({
     }
 
     function deleteUser(user) {
-        if (
-            !window.confirm(
-                `Hapus pengguna "${user.name}"? Tindakan ini tidak dapat dibatalkan.`
-            )
-        ) {
-            return;
-        }
 
-        form.delete(`/admin/users/${user.id}`);
+        openConfirm({
+            title: 'Hapus Pengguna?',
+            message:
+                `Pengguna "${user.name}" akan dihapus. Tindakan ini tidak dapat dibatalkan.`,
+            confirmText: 'Ya, Hapus',
+            cancelText: 'Batal',
+            danger: true,
+
+            onConfirm: () => {
+
+                form.delete(
+                    `/admin/users/${user.id}`
+                );
+
+            },
+        });
     }
-
+    
     return (
         <DashboardLayout>
 
@@ -133,65 +145,81 @@ export default function Index({
 
                 </div>
 
-                <div className="admin-stats">
+                <div className="admin-overview">
 
-                    <div className="admin-stat-card">
-                        <span>
-                            TOTAL USERS
-                        </span>
-
-                        <strong>
-                            {totalUsers}
-                        </strong>
-
-                        <small>
-                            Semua akun
-                        </small>
+                    <div className="admin-section-label">
+                        OVERVIEW
                     </div>
 
+                    <div className="admin-overview-grid">
 
-                    <div className="admin-stat-card">
-                        <span>
-                            PENELITI
-                        </span>
+                        <div className="admin-overview-card admin-overview-card--primary">
 
-                        <strong>
-                            {totalResearchers}
-                        </strong>
+                            <span>
+                                TOTAL USERS
+                            </span>
 
-                        <small>
-                            Pengguna peneliti
-                        </small>
-                    </div>
+                            <strong>
+                                {totalUsers}
+                            </strong>
 
+                            <small>
+                                Semua akun
+                            </small>
 
-                    <div className="admin-stat-card">
-                        <span>
-                            REVIEWER
-                        </span>
-
-                        <strong>
-                            {totalReviewers}
-                        </strong>
-
-                        <small>
-                            Reviewer aktif
-                        </small>
-                    </div>
+                        </div>
 
 
-                    <div className="admin-stat-card">
-                        <span>
-                            DIREKTUR
-                        </span>
+                        <div className="admin-overview-card">
 
-                        <strong>
-                            {totalDirectors}
-                        </strong>
+                            <span>
+                                PENELITI
+                            </span>
 
-                        <small>
-                            Reviewer final
-                        </small>
+                            <strong>
+                                {totalResearchers}
+                            </strong>
+
+                            <small>
+                                Pengguna peneliti
+                            </small>
+
+                        </div>
+
+
+                        <div className="admin-overview-card">
+
+                            <span>
+                                REVIEWER
+                            </span>
+
+                            <strong>
+                                {totalReviewers}
+                            </strong>
+
+                            <small>
+                                Reviewer aktif
+                            </small>
+
+                        </div>
+
+
+                        <div className="admin-overview-card">
+
+                            <span>
+                                DIREKTUR
+                            </span>
+
+                            <strong>
+                                {totalDirectors}
+                            </strong>
+
+                            <small>
+                                Peninjauan akhir
+                            </small>
+
+                        </div>
+
                     </div>
 
                 </div>

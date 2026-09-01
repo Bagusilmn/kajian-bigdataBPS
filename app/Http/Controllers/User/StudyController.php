@@ -64,6 +64,11 @@ class StudyController extends Controller
                 'min:2',
                 'max:50',
             ],
+
+            'submit_for_review' => [
+                'nullable',
+                'boolean',
+            ],
         ]);
 
         $coverImage = null;
@@ -90,7 +95,9 @@ class StudyController extends Controller
 
             'content' => $validated['content'],
 
-            'status' => 'draft',
+            'status' => $request->boolean('submit_for_review')
+                ? 'submitted'
+                : 'draft',
         ]);
 
         $keywordIds = [];
@@ -111,12 +118,15 @@ class StudyController extends Controller
 
         $study->keywords()->sync($keywordIds);
 
+        if ($request->boolean('submit_for_review')) {
+            return redirect()
+                ->route('user.dashboard')
+                ->with('success', 'Kajian berhasil diajukan untuk review.');
+        }
+
         return redirect()
-            ->route('user.dashboard')
-            ->with(
-                'success',
-                'Kajian berhasil disimpan sebagai draft.'
-            );
+            ->route('user.studies.edit', $study)
+            ->with('success', 'Kajian berhasil disimpan sebagai draft.');
     }
 
     public function submitReview(Study $study)
@@ -286,11 +296,34 @@ class StudyController extends Controller
         }
 
         $study->keywords()->sync($keywordIds);
+
+        if ($request->boolean('submit_for_review')) {
+            $study->update([
+                'status' => 'submitted',
+            ]);
+
+            return redirect()
+                ->route('user.dashboard')
+                ->with(
+                    'success',
+                    'Kajian berhasil diajukan untuk review.'
+                );
+        }
+
+        if ($request->boolean('submit_for_review')) {
+            return redirect()
+                ->route('user.dashboard')
+                ->with(
+                    'success',
+                    'Kajian berhasil diajukan untuk review.'
+                );
+        }
+
         return redirect()
             ->route('user.dashboard')
             ->with(
                 'success',
-                'Perubahan kajian berhasil disimpan.'
+                'Kajian berhasil disimpan sebagai draft.'
             );
     }
     public function resubmit(Study $study)

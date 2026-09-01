@@ -5,9 +5,85 @@ import Sidebar from '../Components/Sidebar';
 
 export default function DashboardLayout({ children }) {
 
-    const { flash } = usePage().props;
+    const { flash, url } = usePage().props;
+
     const [toast, setToast] = useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Page Title
+    |--------------------------------------------------------------------------
+    */
+
+    const getPageTitle = (currentUrl) => {
+
+        const path = currentUrl?.split('?')[0] ?? '';
+
+        const pageTitles = {
+
+            // ADMIN
+            '/admin/dashboard': 'Dashboard',
+            '/admin/users': 'Pengguna',
+            '/admin/categories': 'Kategori',
+            '/admin/studies': 'Kelola Kajian',
+
+            // REVIEWER
+            '/reviewer/dashboard': 'Dashboard',
+            '/reviewer/studies/active': 'Sedang Direview',
+            '/reviewer/analytics': 'Analytics',
+
+            // DIRECTOR
+            '/director/dashboard': 'Dashboard',
+            '/director/analytics': 'Analytics',
+
+            // USER / PENELITI
+            '/user/dashboard': 'Dashboard',
+            '/user/analytics': 'Analytics',
+            '/user/studies/create': 'Ajukan Kajian',
+        };
+
+        if (pageTitles[path]) {
+            return pageTitles[path];
+        }
+
+        /*
+         * Untuk halaman yang memiliki parameter / ID,
+         * gunakan fallback berdasarkan prefix.
+         */
+
+        if (path.startsWith('/admin/users/')) {
+            return 'Pengguna';
+        }
+
+        if (path.startsWith('/admin/categories/')) {
+            return 'Kategori';
+        }
+
+        if (path.startsWith('/admin/studies/')) {
+            return 'Kelola Kajian';
+        }
+
+        if (path.startsWith('/reviewer/studies/')) {
+            return 'Sedang Direview';
+        }
+
+        if (path.startsWith('/user/studies/')) {
+            return 'Kajian';
+        }
+
+        return 'Dashboard';
+    };
+
+    const pageTitle = getPageTitle(url);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Flash Toast
+    |--------------------------------------------------------------------------
+    */
+
     useEffect(() => {
 
         const message =
@@ -44,6 +120,7 @@ export default function DashboardLayout({ children }) {
         flash?.info,
     ]);
 
+
     return (
         <div className="dashboard-shell">
 
@@ -66,10 +143,11 @@ export default function DashboardLayout({ children }) {
                     </button>
 
                     <span>
-                        Dashboard
+                        {pageTitle}
                     </span>
 
                 </header>
+
 
                 <main className="dashboard-page">
                     {children}

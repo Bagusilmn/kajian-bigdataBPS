@@ -1,7 +1,12 @@
 import { useForm } from '@inertiajs/react';
 import DashboardLayout from '../../Layouts/DashboardLayout';
+import { useFeedback } from '../../Components/FeedbackProvider';
 
 export default function StudyReview({ study }) {
+
+    const {
+        openConfirm,
+    } = useFeedback();
 
     const revisionForm = useForm({
         notes: '',
@@ -17,32 +22,41 @@ export default function StudyReview({ study }) {
 
     const approve = () => {
 
-        if (
-            !window.confirm(
-                'Setujui kajian ini?'
-            )
-        ) {
-            return;
-        }
+        openConfirm({
+            title: 'Setujui Kajian?',
+            message:
+                'Kajian ini akan disetujui dan dilanjutkan ke tahap review final.',
+            confirmText: 'Ya, Setujui',
+            cancelText: 'Batal',
 
-        actionForm.patch(
-            `/reviewer/studies/${study.id}/approve`
-        );
+            onConfirm: () => {
+
+                actionForm.patch(
+                    `/reviewer/studies/${study.id}/approve`
+                );
+
+            },
+        });
     };
 
     const reject = () => {
 
-        if (
-            !window.confirm(
-                'Tolak kajian ini?'
-            )
-        ) {
-            return;
-        }
+        openConfirm({
+            title: 'Tolak Kajian?',
+            message:
+                'Kajian ini akan ditolak dari proses review.',
+            confirmText: 'Ya, Tolak',
+            cancelText: 'Batal',
+            danger: true,
 
-        actionForm.patch(
-            `/reviewer/studies/${study.id}/reject`
-        );
+            onConfirm: () => {
+
+                actionForm.patch(
+                    `/reviewer/studies/${study.id}/reject`
+                );
+
+            },
+        });
     };
 
     const requestRevision = (event) => {

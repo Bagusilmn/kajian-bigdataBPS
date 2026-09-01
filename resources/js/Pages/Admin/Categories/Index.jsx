@@ -1,14 +1,20 @@
 import { useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import DashboardLayout from '../../../Layouts/DashboardLayout';
+import { useFeedback } from '../../../Components/FeedbackProvider';
 
 export default function Index({ categories = [] }) {
+    const {
+        showToast,
+        openConfirm,
+    } = useFeedback();
     const [showForm, setShowForm] = useState(false);
     const [editingCategory, setEditingCategory] = useState(null);
 
     const form = useForm({
         name: '',
         description: '',
+        image: null,
     });
 
     function openCreate() {
@@ -17,6 +23,7 @@ export default function Index({ categories = [] }) {
         form.setData({
             name: '',
             description: '',
+            image: null,
         });
 
         form.clearErrors();
@@ -29,6 +36,7 @@ export default function Index({ categories = [] }) {
         form.setData({
             name: category.name ?? '',
             description: category.description ?? '',
+            image: null,
         });
 
         form.clearErrors();
@@ -47,9 +55,15 @@ export default function Index({ categories = [] }) {
         event.preventDefault();
 
         if (editingCategory) {
-            form.patch(
+            form.transform((data) => ({
+                ...data,
+                _method: 'PATCH',
+            }));
+
+            form.post(
                 `/admin/categories/${editingCategory.id}`,
                 {
+                    forceFormData: true,
                     onSuccess: () => closeForm(),
                 }
             );
@@ -58,30 +72,39 @@ export default function Index({ categories = [] }) {
         }
 
         form.post('/admin/categories', {
+            forceFormData: true,
             onSuccess: () => closeForm(),
         });
     }
 
     function deleteCategory(category) {
+
         if (Number(category.studies_count) > 0) {
-            window.alert(
-                'Kategori ini masih digunakan oleh kajian dan tidak dapat dihapus.'
+
+            showToast(
+                'Kategori ini masih digunakan oleh kajian dan tidak dapat dihapus.',
+                'warning'
             );
 
             return;
         }
 
-        if (
-            !window.confirm(
-                `Hapus kategori "${category.name}"?`
-            )
-        ) {
-            return;
-        }
+        openConfirm({
+            title: 'Hapus Kategori?',
+            message:
+                `Kategori "${category.name}" akan dihapus secara permanen.`,
+            confirmText: 'Ya, Hapus',
+            cancelText: 'Batal',
+            danger: true,
 
-        form.delete(
-            `/admin/categories/${category.id}`
-        );
+            onConfirm: () => {
+
+                form.delete(
+                    `/admin/categories/${category.id}`
+                );
+
+            },
+        });
     }
 
     return (
@@ -325,7 +348,76 @@ export default function Index({ categories = [] }) {
 
                                 </div>
 
+                                <div className="admin-form-field">
+                                    <label>
+                                        Gambar Kategori
+                                    </label>
 
+                                    {/* Preview gambar yang sudah tersimpan */}
+                                    {editingCategory?.image_url && !form.data.image && (
+                                        <div className="admin-category-image-preview">
+                                            <img
+                                                src={editingCategory.image_url}
+                                                alt={editingCategory.name}
+                                            />
+                                        </div>
+                                    )}
+
+                                    {/* Upload / pilih gambar */}
+                                    <div className="admin-image-upload">
+                                        <input
+                                            id="category-image"
+                                            type="file"
+                                            accept="image/jpeg,image/png,image/webp"
+                                            className="admin-image-upload__input"
+                                            onChange={(event) => {
+                                                const file = event.target.files?.[0] ?? null;
+
+                                                form.setData('image', file);
+                                            }}
+                                        />
+
+                                        <label
+                                            htmlFor="category-image"
+                                            className="admin-image-upload__box"
+                                        >
+                                            <div className="admin-image-upload__icon">
+                                                ↑
+                                            </div>
+
+                                            <div className="admin-image-upload__text">
+                                                <strong>
+                                                    {form.data.image
+                                                        ? form.data.image.name
+                                                        : 'Pilih gambar kategori'}
+                                                </strong>
+
+                                                <span>
+                                                    {form.data.image
+                                                        ? 'Klik untuk mengganti gambar'
+                                                        : 'JPG, PNG, atau WebP'}
+                                                </span>
+                                            </div>
+
+                                            <div className="admin-image-upload__button">
+                                                Pilih Gambar
+                                            </div>
+                                        </label>
+                                    </div>
+
+                                    <small className="admin-form-help">
+                                        Maksimal 5 MB · Disarankan menggunakan gambar landscape.
+                                    </small>
+
+                                    {form.errors.image && (
+                                        <div className="form-error">
+                                            {form.errors.image}
+                                        </div>
+                                    )}
+                                </div>
+
+
+                                {/* ACTION BUTTONS */}
                                 <div className="admin-modal__actions">
 
                                     <button
@@ -335,7 +427,6 @@ export default function Index({ categories = [] }) {
                                     >
                                         Batal
                                     </button>
-
 
                                     <button
                                         type="submit"

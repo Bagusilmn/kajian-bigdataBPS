@@ -54,7 +54,7 @@ class StudyController extends Controller
 
         $studies = $query
             ->latest()
-            ->paginate(9)
+            ->paginate(12)
             ->withQueryString();
 
         $categories = Category::orderBy('name')->get();

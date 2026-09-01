@@ -18,6 +18,7 @@
     @viteReactRefresh
 
     @vite([
+        'resources/css/react.css',
         'resources/js/app.jsx'
     ])
 

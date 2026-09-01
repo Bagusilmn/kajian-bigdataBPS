@@ -6,10 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Study;
 use Inertia\Inertia;
-// use App\Models\StudyView;
-// use App\Models\StudyLike;
-// use App\Models\StudyComment;
-// use App\Models\StudyShare;
+
 
 class HomeController extends Controller
 {
@@ -21,10 +18,10 @@ class HomeController extends Controller
             ->whereNotNull('published_at')
             ->orderByDesc('published_at')
             ->orderByDesc('id')
-            ->take(3)
+            ->take(4)
             ->get();
 
-        $featuredStudy = Study::with([
+        $popularStudies = Study::with([
                 'category',
             ])
             ->withCount([
@@ -42,7 +39,8 @@ class HomeController extends Controller
                 + (comments_count * 5)
                 + (shares_count * 4)) DESC'
             )
-            ->first();
+            ->take(5)
+            ->get();
 
         $categories = Category::withCount([
             'studies' => function ($query) {
@@ -53,7 +51,7 @@ class HomeController extends Controller
             ->get();
 
         return Inertia::render('Public/Home', [
-            'featuredStudy' => $featuredStudy,
+            'popularStudies' => $popularStudies,
             'latestStudies' => $latestStudies,
             'categories' => $categories,
         ]);

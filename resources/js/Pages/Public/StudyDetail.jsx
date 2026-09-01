@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { createPortal } from 'react-dom';
+import { useEffect, useRef, useState } from 'react';
 import PublicLayout from '../../Layouts/PublicLayout';
+import { useFeedback } from '../../Components/FeedbackProvider';
 import {
     Head,
     router,
@@ -18,6 +20,9 @@ export default function StudyDetail({
     totalComments,
     recommendedStudies,
 }) {
+    const {
+        showToast,
+    } = useFeedback();
     const { auth } = usePage().props;
     const seoDescription =
         seo?.description ||
@@ -28,12 +33,77 @@ export default function StudyDetail({
 
     const seoUrl = seo?.url ?? `/kajian/${study.slug}`;
     const [showShareMenu, setShowShareMenu] = useState(false);
+    const shareButtonRef = useRef(null);
+    const [shareMenuPosition, setShareMenuPosition] = useState({
+        top: 0,
+        left: 0,
+    });
+    const updateShareMenuPosition = () => {
+
+        const button = shareButtonRef.current;
+
+        if (!button) {
+            return;
+        }
+
+        const rect =
+            button.getBoundingClientRect();
+
+        setShareMenuPosition({
+            top: rect.bottom + 8,
+            left: rect.left,
+        });
+    };
+    useEffect(() => {
+
+        if (!showShareMenu) {
+            return;
+        }
+
+        updateShareMenuPosition();
+
+        const handleScroll = () => {
+            updateShareMenuPosition();
+        };
+
+        const handleResize = () => {
+            updateShareMenuPosition();
+        };
+
+        window.addEventListener(
+            'scroll',
+            handleScroll,
+            true
+        );
+
+        window.addEventListener(
+            'resize',
+            handleResize
+        );
+
+        return () => {
+
+            window.removeEventListener(
+                'scroll',
+                handleScroll,
+                true
+            );
+
+            window.removeEventListener(
+                'resize',
+                handleResize
+            );
+        };
+
+    }, [showShareMenu]);
     const shareStudy = async (platform) => {
         const url = window.location.href;
         const title = study.title;
 
         if (platform === 'copy') {
+
             try {
+
                 await navigator.clipboard.writeText(url);
 
                 router.post(
@@ -47,9 +117,18 @@ export default function StudyDetail({
                     }
                 );
 
-                window.alert('Link kajian berhasil disalin.');
+                showToast(
+                    'Link kajian berhasil disalin.',
+                    'success'
+                );
+
             } catch (error) {
-                window.alert('Link kajian gagal disalin.');
+
+                showToast(
+                    'Link kajian gagal disalin.',
+                    'error'
+                );
+
             }
 
             return;
@@ -346,56 +425,75 @@ export default function StudyDetail({
                             <div className="detail-share-wrapper">
 
                                 <button
+                                    ref={shareButtonRef}
                                     type="button"
                                     className="detail-share"
-                                    onClick={() =>
-                                        setShowShareMenu(!showShareMenu)
-                                    }
+                                    onClick={() => {
+
+                                        if (!showShareMenu) {
+                                            updateShareMenuPosition();
+                                        }
+
+                                        setShowShareMenu(
+                                            !showShareMenu
+                                        );
+
+                                    }}
                                 >
                                     ↗ Bagikan
                                 </button>
-
-                                {showShareMenu && (
-                                    <div className="detail-share-menu">
-
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                shareStudy('whatsapp')
-                                            }
+                                {showShareMenu &&
+                                    shareButtonRef.current &&
+                                    createPortal(
+                                        <div
+                                            className="detail-share-menu detail-share-menu--portal"
+                                            style={{
+                                                position: 'fixed',
+                                                top: shareMenuPosition.top,
+                                                left: shareMenuPosition.left,
+                                            }}
                                         >
-                                            WhatsApp
-                                        </button>
 
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                shareStudy('x')
-                                            }
-                                        >
-                                            X
-                                        </button>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    shareStudy('whatsapp')
+                                                }
+                                            >
+                                                WhatsApp
+                                            </button>
 
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                shareStudy('linkedin')
-                                            }
-                                        >
-                                            LinkedIn
-                                        </button>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    shareStudy('x')
+                                                }
+                                            >
+                                                X
+                                            </button>
 
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                shareStudy('copy')
-                                            }
-                                        >
-                                            Salin Link
-                                        </button>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    shareStudy('linkedin')
+                                                }
+                                            >
+                                                LinkedIn
+                                            </button>
 
-                                    </div>
-                                )}
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    shareStudy('copy')
+                                                }
+                                            >
+                                                Salin Link
+                                            </button>
+
+                                        </div>,
+                                        document.body
+                                    )
+                                }
 
                             </div>
 

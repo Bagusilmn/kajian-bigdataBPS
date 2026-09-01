@@ -1,7 +1,11 @@
 import { useForm, usePage } from '@inertiajs/react';
 import DashboardLayout from '../../Layouts/DashboardLayout';
+import { useFeedback } from '../../Components/FeedbackProvider';
 
 export default function Edit({ user }) {
+    const {
+        openConfirm,
+    } = useFeedback();
     const { flash } = usePage().props;
 
     const profileForm = useForm({
@@ -38,19 +42,24 @@ export default function Edit({ user }) {
     function deleteAccount(event) {
         event.preventDefault();
 
-        if (
-            !window.confirm(
-                'Apakah kamu yakin ingin menghapus akun ini? Tindakan ini tidak dapat dibatalkan.'
-            )
-        ) {
-            return;
-        }
+        openConfirm({
+            title: 'Hapus Akun?',
+            message:
+                'Akun kamu akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.',
+            confirmText: 'Ya, Hapus Akun',
+            cancelText: 'Batal',
+            danger: true,
 
-        deleteForm.delete('/profile', {
-            onSuccess: () => {
-                //
-                // Redirect ditangani Laravel
-                //
+            onConfirm: () => {
+
+                deleteForm.delete('/profile', {
+                    onSuccess: () => {
+                        //
+                        // Redirect ditangani Laravel
+                        //
+                    },
+                });
+
             },
         });
     }

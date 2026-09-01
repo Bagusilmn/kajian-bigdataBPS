@@ -133,9 +133,9 @@ export default function Analytics({
     return (
         <DashboardLayout>
 
-            <div className="user-dashboard">
+            <div className="reviewer-analytics">
 
-                <div className="dashboard-header">
+                <div className="reviewer-analytics-header">
 
                     <div>
 
@@ -156,9 +156,9 @@ export default function Analytics({
                 </div>
 
 
-                <div className="dashboard-stats">
+                <div className="reviewer-analytics-stats">
 
-                    <div className="dashboard-stat">
+                    <div className="reviewer-analytics-stat">
                         <span>
                             TOTAL REVIEW
                         </span>
@@ -173,7 +173,7 @@ export default function Analytics({
                     </div>
 
 
-                    <div className="dashboard-stat">
+                    <div className="reviewer-analytics-stat">
                         <span>
                             REVISION
                         </span>
@@ -188,7 +188,7 @@ export default function Analytics({
                     </div>
 
 
-                    <div className="dashboard-stat">
+                    <div className="reviewer-analytics-stat">
                         <span>
                             FORWARDED
                         </span>
@@ -203,7 +203,7 @@ export default function Analytics({
                     </div>
 
 
-                    <div className="dashboard-stat">
+                    <div className="reviewer-analytics-stat">
                         <span>
                             REJECTED
                         </span>
@@ -223,9 +223,9 @@ export default function Analytics({
 
                     {/* DECISION ANALYTICS */}
 
-                    <section className="user-studies-section">
+                    <section className="reviewer-analytics-section">
 
-                        <div className="user-studies-heading">
+                        <div className="reviewer-analytics-heading">
 
                             <div>
 
@@ -241,9 +241,9 @@ export default function Analytics({
 
                         </div>
 
-                        <div className="user-analytics-chart-card">
+                        <div className="reviewer-analytics-chart-card">
 
-                            <div className="user-analytics-chart user-analytics-chart--small">
+                            <div className="reviewer-analytics-chart reviewer-analytics-chart--small">
                                 <canvas ref={decisionChartRef} />
                             </div>
 
@@ -254,9 +254,9 @@ export default function Analytics({
 
                     {/* REVIEW ACTIVITY */}
 
-                    <section className="user-studies-section">
+                    <section className="reviewer-analytics-section">
 
-                        <div className="user-studies-heading">
+                        <div className="reviewer-analytics-heading">
 
                             <div>
 
@@ -267,18 +267,18 @@ export default function Analytics({
                                 <h2>
                                     Aktivitas Review
                                 </h2>
-
+{/* 
                                 <p>
                                     Jumlah kajian yang kamu proses dalam 7 hari terakhir.
-                                </p>
+                                </p> */}
 
                             </div>
 
                         </div>
 
-                        <div className="user-analytics-chart-card">
+                        <div className="reviewer-analytics-chart-card">
 
-                            <div className="user-analytics-chart">
+                            <div className="reviewer-analytics-chart">
                                 <canvas ref={trendChartRef} />
                             </div>
 
@@ -288,9 +288,9 @@ export default function Analytics({
 
                 </div>          
 
-                <section className="user-studies-section">
+                <section className="reviewer-analytics-section">
 
-                    <div className="user-studies-heading">
+                    <div className="reviewer-analytics-heading">
 
                         <div>
 
@@ -309,18 +309,18 @@ export default function Analytics({
 
                     {recentReviews.length > 0 ? (
 
-                        <div className="user-study-grid">
+                        <div className="reviewer-analytics-history">
 
                             {recentReviews.map((review) => (
 
                                 <article
                                     key={review.id}
-                                    className="user-study-card"
+                                    className="reviewer-history-card"
                                 >
 
-                                    <div className="user-study-card__content">
+                                    <div className="reviewer-history-card__content">
 
-                                        <div className="user-study-card__status">
+                                        <div className="reviewer-history-card__status">
                                             {review.decision === 'revision'
                                                 ? 'Revision'
                                                 : review.decision === 'approved'
@@ -332,12 +332,11 @@ export default function Analytics({
                                             {review.study?.title ?? 'Kajian'}
                                         </h3>
 
-                                        <p>
-                                            {review.study?.category?.name ??
-                                                'Kajian'}
+                                        <p className="reviewer-history-card__category">
+                                            {review.study?.category?.name ?? 'Kajian'}
                                         </p>
 
-                                        <div className="user-study-card__footer">
+                                        <div className="reviewer-history-card__footer">
 
                                             <span>
                                                 {review.created_at
@@ -366,7 +365,7 @@ export default function Analytics({
 
                     ) : (
 
-                        <div className="user-empty-state">
+                        <div className="reviewer-analytics-empty">
 
                             <div className="dashboard-eyebrow">
                                 BELUM ADA REVIEW

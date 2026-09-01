@@ -113,7 +113,18 @@ export default function Sidebar({ isOpen = false, onClose }) {
                         onClick={handleNavigation}
                     >
 
-                        <span className="dashboard-brand__mark">
+                        <span
+                            className="dashboard-brand__mark"
+                            style={{
+                                width: '36px',
+                                height: '36px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                flexShrink: 0,
+                                overflow: 'hidden',
+                            }}
+                        >
                             <BpsLogo />
                         </span>
 

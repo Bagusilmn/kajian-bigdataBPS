@@ -168,7 +168,7 @@ export default function Analytics({
 
                 <div className="dashboard-stats">
 
-                    <div className="dashboard-stat">
+                    <div className="director-analytics-stat">
                         <span>
                             MENUNGGU REVIEW FINAL
                         </span>
@@ -183,7 +183,7 @@ export default function Analytics({
                     </div>
 
 
-                    <div className="dashboard-stat">
+                    <div className="director-analytics-stat">
                         <span>
                             REVISION
                         </span>
@@ -198,7 +198,7 @@ export default function Analytics({
                     </div>
 
 
-                    <div className="dashboard-stat">
+                    <div className="director-analytics-stat">
                         <span>
                             PUBLISHED
                         </span>
@@ -213,7 +213,7 @@ export default function Analytics({
                     </div>
 
 
-                    <div className="dashboard-stat">
+                    <div className="director-analytics-stat">
                         <span>
                             REJECTED
                         </span>
@@ -232,9 +232,9 @@ export default function Analytics({
 
                     {/* STATUS DISTRIBUTION */}
 
-                    <section className="user-studies-section">
+                    <section className="director-analytics-section">
 
-                        <div className="user-studies-heading">
+                        <div className="director-analytics-heading">
 
                             <div>
 
@@ -246,9 +246,9 @@ export default function Analytics({
                                     Distribusi Status Kajian
                                 </h2>
 
-                                <p>
+                                {/* <p>
                                     Komposisi seluruh kajian berdasarkan status terkini.
-                                </p>
+                                </p> */}
 
                             </div>
 
@@ -268,9 +268,9 @@ export default function Analytics({
 
                     {/* TREND */}
 
-                    <section className="user-studies-section">
+                    <section className="director-analytics-section">
 
-                        <div className="user-studies-heading">
+                        <div className="director-analytics-heading">
 
                             <div>
 
@@ -300,9 +300,9 @@ export default function Analytics({
                 </div>
                 {/* HISTORY */}
 
-                <section className="user-studies-section">
+                <section className="director-analytics-section">
 
-                    <div className="user-studies-heading">
+                    <div className="director-analytics-heading">
 
                         <div>
 
@@ -332,17 +332,15 @@ export default function Analytics({
 
                                     <div className="user-study-card__content">
 
-                                        <div className="user-study-card__status">
-                                            <span className="user-study-card__status">
-                                                {review.stage === 'director'
-                                                    ? review.decision === 'approved'
-                                                        ? 'Approved'
-                                                        : review.decision === 'revision'
-                                                            ? 'Revision'
-                                                            : 'Rejected'
-                                                    : 'Review'}
-                                            </span>
-                                        </div>
+                                        <span className="director-history-card__status">
+                                            {review.stage === 'director'
+                                                ? review.decision === 'approved'
+                                                    ? 'Approved'
+                                                    : review.decision === 'revision'
+                                                        ? 'Revision'
+                                                        : 'Rejected'
+                                                : 'Review'}
+                                        </span>
 
 
                                         <h3>

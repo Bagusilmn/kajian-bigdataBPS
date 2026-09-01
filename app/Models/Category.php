@@ -13,7 +13,19 @@ class Category extends Model
         'name',
         'slug',
         'description',
+        'image',
     ];
+
+    protected $appends = [
+        'image_url',
+    ];
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image
+            ? asset('storage/' . $this->image)
+            : null;
+    }
 
     public function studies()
     {

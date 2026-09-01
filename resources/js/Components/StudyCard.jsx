@@ -1,6 +1,4 @@
 export default function StudyCard({ study }) {
-    console.log('STUDY:', study);
-    console.log('COVER:', study.cover_image);
     const formatDate = (date) => {
         if (!date) return '';
 

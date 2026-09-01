@@ -22,7 +22,13 @@ export default function StudyCard({ study }) {
 
                 {study.cover_image ? (
                     <img
-                        src={`/storage/${study.cover_image}`}
+                        src={
+                            study.cover_image.startsWith('http')
+                                ? study.cover_image
+                                : `/storage/${study.cover_image
+                                    .replace(/^\/+/, '')
+                                    .replace(/^storage\//, '')}`
+                        }
                         alt={study.title}
                     />
                 ) : (

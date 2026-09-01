@@ -173,7 +173,13 @@ export default function Home({
 
                                         {currentPopular.cover_image ? (
                                             <img
-                                                src={`/storage/${currentPopular.cover_image}`}
+                                                src={
+                                                    currentPopular.cover_image.startsWith('http')
+                                                        ? currentPopular.cover_image
+                                                        : `/storage/${currentPopular.cover_image
+                                                            .replace(/^\/+/, '')
+                                                            .replace(/^storage\//, '')}`
+                                                }
                                                 alt={currentPopular.title}
                                             />
                                         ) : (

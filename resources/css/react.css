@@ -79,7 +79,7 @@ textarea {
 }
 
 .site-navbar__inner {
-    width: min(1800px, calc(100% - 48px));
+    width: min(1680px, calc(100% - 48px));
     height: 100%;
     margin: 0 auto;
 
@@ -845,7 +845,7 @@ textarea {
 ===================================================== */
 
 .home-section-header {
-    width: min(1800px, calc(100% - 48px));
+    width: min(1680px, calc(100% - 48px));
     margin: 0 auto 32px;
 
     display: flex;
@@ -1358,7 +1358,7 @@ textarea {
 }
 
 .home-topics__header {
-    width: min(1800px, calc(100% - 48px));
+    width: min(1680px, calc(100% - 48px));
     margin: 0 auto 32px;
     gap: 20px;
 }
@@ -1398,7 +1398,7 @@ textarea {
     position: relative;
     z-index: 2;
 
-    width: min(1800px, calc(100% - 48px));
+    width: min(1680px, calc(100% - 48px));
     margin: 0 auto;
 
     display: grid;
@@ -1695,7 +1695,7 @@ textarea {
 }
 
 .home-statement__inner {
-    width: min(1800px, calc(100% - 48px));
+    width: min(1680px, calc(100% - 48px));
     margin: 0 auto;
 
     display: grid;
@@ -1773,7 +1773,7 @@ textarea {
 }
 
 .home-cta__box {
-    width: min(1800px, calc(100% - 48px));
+    width: min(1680px, calc(100% - 48px));
     min-height: 190px;
 
     margin: 0 auto;
@@ -1875,7 +1875,7 @@ textarea {
 }
 
 .site-footer__inner {
-    width: min(1800px, calc(100% - 48px));
+    width: min(1680px, calc(100% - 48px));
     margin: 0 auto;
 
     padding: 52px 0 42px;
@@ -1963,7 +1963,7 @@ textarea {
 }
 
 .site-footer__bottom {
-    width: min(1800px, calc(100% - 48px));
+    width: min(1680px, calc(100% - 48px));
     margin: 0 auto;
 
     padding: 17px 0 20px;
@@ -2025,7 +2025,7 @@ textarea {
 }
 
 .studies-header__inner {
-    width: min(1800px, calc(100% - 48px));
+    width: min(1680px, calc(100% - 48px));
     margin: 0 auto;
 }
 
@@ -2069,7 +2069,7 @@ textarea {
 }
 
 .studies-container {
-    width: min(1800px, calc(100% - 48px));
+    width: min(1680px, calc(100% - 48px));
     margin: 0 auto;
 }
 
@@ -3749,7 +3749,7 @@ textarea {
 ===================================================== */
 
 .study-create-page {
-    max-width: 1700px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 
@@ -4103,7 +4103,7 @@ textarea {
 ===================================================== */
 
 .reviewer-dashboard {
-    max-width: 1700px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 
@@ -4921,7 +4921,7 @@ textarea {
 
 .admin-dashboard {
     width: 100%;
-    max-width: 1700px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 
@@ -5826,7 +5826,7 @@ textarea {
 ===================================================== */
 
 .profile-page {
-    max-width: 1700px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 
@@ -9696,7 +9696,7 @@ textarea {
 
 .reviewer-dashboard {
     width: 100%;
-    max-width: 1700px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 
@@ -10506,7 +10506,7 @@ textarea {
 
 .reviewer-analytics {
     width: 100%;
-    max-width: 1700px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 
@@ -11023,7 +11023,7 @@ textarea {
 
 .director-dashboard {
     width: 100%;
-    max-width: 1700px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 
@@ -12624,7 +12624,7 @@ textarea {
 
 .user-dashboard {
     width: 100%;
-    max-width: 1700px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 
@@ -15847,7 +15847,7 @@ textarea {
 ========================= */
 
 .home-latest-slider {
-    width: min(1800px, calc(100% - 48px));
+    width: min(1680px, calc(100% - 48px));
     margin: 0 auto;
 
     display: grid;

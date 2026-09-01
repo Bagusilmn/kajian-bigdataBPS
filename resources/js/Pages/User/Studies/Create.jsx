@@ -26,24 +26,44 @@ class PdfBlot extends BlockEmbed {
         const node = super.create();
 
         node.setAttribute('contenteditable', 'false');
+
         node.dataset.url = value.url;
         node.dataset.name = value.name || 'Dokumen PDF';
 
         node.innerHTML = `
-            <div class="study-file-card">
-                <div class="study-file-card__icon">PDF</div>
-                <div class="study-file-card__content">
-                    <strong>${escapeHtml(value.name || 'Dokumen PDF')}</strong>
-                    <span>Dokumen PDF</span>
+            <div class="study-pdf-header">
+                <div class="study-pdf-info">
+                    <div class="study-pdf-icon">
+                        PDF
+                    </div>
+
+                    <div class="study-pdf-title">
+                        <strong>
+                            ${escapeHtml(value.name || 'Dokumen PDF')}
+                        </strong>
+
+                        <span>
+                            Dokumen PDF
+                        </span>
+                    </div>
                 </div>
+
                 <a
                     href="${value.url}"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="study-file-card__action"
+                    class="study-pdf-open"
                 >
-                    Buka
+                    Buka penuh
                 </a>
+            </div>
+
+            <div class="study-pdf-viewer">
+                <iframe
+                    src="${value.url}#toolbar=1&navpanes=0&view=FitH"
+                    title="${escapeHtml(value.name || 'Dokumen PDF')}"
+                    loading="lazy"
+                ></iframe>
             </div>
         `;
 

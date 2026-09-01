@@ -133,6 +133,10 @@ export default function DashboardLayout({ children }) {
 
                 <header className="dashboard-topbar">
 
+                    <span>
+                        {pageTitle}
+                    </span>
+
                     <button
                         type="button"
                         className="dashboard-mobile-menu"
@@ -141,10 +145,6 @@ export default function DashboardLayout({ children }) {
                     >
                         ☰
                     </button>
-
-                    <span>
-                        {pageTitle}
-                    </span>
 
                 </header>
 

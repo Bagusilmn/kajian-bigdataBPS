@@ -24,6 +24,7 @@ export default function StudyDetail({
         showToast,
     } = useFeedback();
     const { auth } = usePage().props;
+    console.log('STUDY DETAIL:', study);    
     const seoDescription =
         seo?.description ||
         study.excerpt?.trim() ||

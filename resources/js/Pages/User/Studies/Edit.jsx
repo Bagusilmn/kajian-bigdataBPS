@@ -71,31 +71,68 @@ const getVideoEmbedUrl = (url = '') => {
 };
 
 const BlockEmbed = Quill.import('blots/block/embed');
+const Delta = Quill.import('delta');
 
 class PdfBlot extends BlockEmbed {
     static blotName = 'pdf';
     static tagName = 'div';
-    static className = 'pdf-embed';
+    static className = 'study-pdf-block';
 
     static create(value) {
         const node = super.create();
-
-        const iframe = document.createElement('iframe');
-
-        iframe.src = value.url;
-        iframe.title = value.name || 'Dokumen PDF';
-        iframe.loading = 'lazy';
 
         node.setAttribute('contenteditable', 'false');
         node.dataset.url = value.url;
         node.dataset.name = value.name || 'Dokumen PDF';
 
-        iframe.style.width = '100%';
-        iframe.style.height = '700px';
-        iframe.style.border = '0';
-        iframe.style.borderRadius = '8px';
+        const header = document.createElement('div');
+        header.className = 'study-pdf-header';
 
-        node.appendChild(iframe);
+        const info = document.createElement('div');
+        info.className = 'study-pdf-info';
+
+        const icon = document.createElement('div');
+        icon.className = 'study-pdf-icon';
+        icon.textContent = 'PDF';
+
+        const title = document.createElement('div');
+        title.className = 'study-pdf-title';
+
+        const strong = document.createElement('strong');
+        strong.textContent = value.name || 'Dokumen PDF';
+
+        const type = document.createElement('span');
+        type.textContent = 'Dokumen PDF';
+
+        title.appendChild(strong);
+        title.appendChild(type);
+
+        info.appendChild(icon);
+        info.appendChild(title);
+
+        const openLink = document.createElement('a');
+        openLink.href = value.url;
+        openLink.target = '_blank';
+        openLink.rel = 'noopener noreferrer';
+        openLink.className = 'study-pdf-open';
+        openLink.textContent = 'Buka penuh';
+
+        header.appendChild(info);
+        header.appendChild(openLink);
+
+        const viewer = document.createElement('div');
+        viewer.className = 'study-pdf-viewer';
+
+        const iframe = document.createElement('iframe');
+        iframe.src =
+            `${value.url}#toolbar=1&navpanes=0&view=FitH`;
+        iframe.title = value.name || 'Dokumen PDF';
+        iframe.loading = 'lazy';
+
+        viewer.appendChild(iframe);
+
+        node.appendChild(header);
+        node.appendChild(viewer);
 
         return node;
     }
@@ -107,7 +144,6 @@ class PdfBlot extends BlockEmbed {
         };
     }
 }
-
 /*
 |--------------------------------------------------------------------------
 | Video
@@ -1890,7 +1926,6 @@ export default function Edit({ study, categories }) {
                 }
             );
 
-
         /*
         |----------------------------------------------------------------------
         | Load Existing Content
@@ -1898,13 +1933,33 @@ export default function Edit({ study, categories }) {
         */
 
         if (study.content) {
-            // Sinkronkan DOM awal dengan document/Delta internal Quill.
-            // Jangan mengisi root.innerHTML secara langsung karena selection
-            // dan operasi insert berikutnya bisa bekerja pada document yang salah.
-            quill.clipboard.dangerouslyPasteHTML(
-                study.content,
-                'api'
-            );
+            const delta = quill.clipboard.convert({
+                html: study.content,
+            });
+
+            delta.ops = delta.ops.map((op) => {
+                if (
+                    op.insert &&
+                    op.insert.video &&
+                    typeof op.insert.video === 'string' &&
+                    /\.pdf(?:#.*)?$/i.test(op.insert.video)
+                ) {
+                    const url = op.insert.video;
+
+                    return {
+                        insert: {
+                            pdf: {
+                                url: url.replace(/#.*$/, ''),
+                                name: 'Dokumen PDF',
+                            },
+                        },
+                    };
+                }
+
+                return op;
+            });
+
+            quill.setContents(delta, 'api');
 
             form.setData(
                 'content',
@@ -1950,7 +2005,37 @@ export default function Edit({ study, categories }) {
             updateSlashMenu();
 
         };
+        const handlePaste = (event) => {
+            const items = event.clipboardData?.items;
 
+            if (!items) return;
+
+            for (const item of items) {
+                if (!item.type.startsWith('image/')) {
+                    continue;
+                }
+
+                const file = item.getAsFile();
+
+                if (!file) {
+                    continue;
+                }
+
+                event.preventDefault();
+
+                uploadImage(
+                    file,
+                    'Ilustrasi kajian Big Data BPS'
+                );
+
+                break;
+            }
+        };
+        quill.root.addEventListener(
+            'paste',
+            handlePaste,
+            true
+        );
         quill.on(
             'text-change',
             handleTextChange
@@ -1993,6 +2078,11 @@ export default function Edit({ study, categories }) {
             quill.root.removeEventListener(
                 'keyup',
                 handleKeyUp
+            );
+            quill.root.removeEventListener(
+                'paste',
+                handlePaste,
+                true
             );
 
             quillRef.current =

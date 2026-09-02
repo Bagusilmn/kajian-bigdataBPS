@@ -16342,3 +16342,11 @@ textarea {
         font-size: 9px;
     }
 }
+
+iframe.ql-video[src*=".pdf"] {
+    width: 100% !important;
+    height: 700px !important;
+    display: block;
+    border: 0;
+    border-radius: 8px;
+}

@@ -1076,8 +1076,83 @@ export default function Create({ categories = [] }) {
                     },
                 }
             );
+        const handlePaste = async (event) => {
+
+            const items = event.clipboardData?.items;
 
 
+            if (!items) return;
+
+            for (const item of items) {
+
+                if (!item.type.startsWith('image/')) {
+                    continue;
+                }
+
+                const file = item.getAsFile();
+
+                if (!file) {
+                    continue;
+                }
+
+                event.preventDefault();
+                const data = new FormData();
+
+                data.append('image', file);
+
+                try {
+                    const response = await fetch(
+                        '/user/studies/content-image',
+                        {
+                            method: 'POST',
+
+                            headers: {
+                                'X-CSRF-TOKEN':
+                                    document
+                                        .querySelector(
+                                            'meta[name="csrf-token"]'
+                                        )
+                                        ?.getAttribute('content'),
+
+                                Accept: 'application/json',
+                            },
+
+                            body: data,
+                        }
+                    );
+
+                    const result = await response.json();
+
+
+                    if (!response.ok || !result.success) {
+                        throw new Error(
+                            result.message ||
+                                'Gagal mengupload gambar.'
+                        );
+                    }
+                    insertImage(
+                        result.url,
+                        'Ilustrasi kajian Big Data BPS'
+                    );
+
+                } catch (error) {
+                    console.error(
+                        '❌ GAGAL UPLOAD:',
+                        error
+                    );
+
+                    alert(
+                        error.message ||
+                            'Gagal mengupload gambar.'
+                    );
+                }
+            }
+        };
+        quill.root.addEventListener(
+            'paste',
+            handlePaste,
+            true
+        );
         const handleTextChange = () => {
 
             form.setData(
@@ -1107,9 +1182,7 @@ export default function Create({ categories = [] }) {
 
         quillRef.current = quill;
 
-
         return () => {
-
             quill.off(
                 'text-change',
                 handleTextChange
@@ -1118,6 +1191,12 @@ export default function Create({ categories = [] }) {
             quill.off(
                 'selection-change',
                 handleSelectionChange
+            );
+
+            quill.root.removeEventListener(
+                'paste',
+                handlePaste,
+                true
             );
 
             quillRef.current = null;

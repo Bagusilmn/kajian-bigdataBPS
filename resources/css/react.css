@@ -4225,16 +4225,6 @@ textarea {
     border-radius: 12px;
 }
 
-.reviewer-stat span {
-    display: block;
-
-    color: #98a2b3;
-
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: .08em;
-}
-
 .reviewer-stat strong {
     display: block;
 
@@ -4411,10 +4401,6 @@ textarea {
         font-size: 32px;
     }
 
-    .reviewer-stats {
-        grid-template-columns: 1fr;
-    }
-
     .reviewer-study-card {
         grid-template-columns: 1fr;
     }
@@ -4431,12 +4417,6 @@ textarea {
 /* =====================================================
    REVIEW STUDY PAGE
 ===================================================== */
-
-.review-page {
-    width: 100%;
-    max-width: 1180px;
-    margin: 0 auto;
-}
 
 
 /* =====================================================
@@ -4500,11 +4480,6 @@ textarea {
     font-size: 10px;
 }
 
-.review-meta strong {
-    color: var(--rb-text);
-    font-weight: 700;
-}
-
 .review-status {
     display: inline-flex;
     align-items: center;
@@ -4539,25 +4514,10 @@ textarea {
     align-items: start;
 }
 
-.review-main {
-    min-width: 0;
-}
-
 
 /* =====================================================
    COVER
 ===================================================== */
-
-.review-cover {
-    width: 100%;
-
-    overflow: hidden;
-
-    background: #ffffff;
-
-    border: 1px solid var(--rb-border);
-    border-radius: 10px;
-}
 
 .review-cover img {
     display: block;
@@ -4625,18 +4585,6 @@ textarea {
     font-size: 24px;
 }
 
-.review-content h2 {
-    font-size: 20px;
-}
-
-.review-content h3 {
-    font-size: 17px;
-}
-
-.review-content h4 {
-    font-size: 15px;
-}
-
 .review-content p {
     margin-bottom: 16px;
 }
@@ -4646,10 +4594,6 @@ textarea {
     margin: 14px 0 20px;
 
     padding-left: 24px;
-}
-
-.review-content li {
-    margin-bottom: 6px;
 }
 
 .review-content img {
@@ -4763,16 +4707,6 @@ textarea {
         transform .18s ease;
 }
 
-.review-action:hover:not(:disabled) {
-    transform: translateY(-1px);
-}
-
-.review-action:disabled {
-    opacity: .55;
-
-    cursor: not-allowed;
-}
-
 
 /* APPROVE */
 
@@ -4839,17 +4773,6 @@ textarea {
     box-sizing: border-box;
 }
 
-.review-action-card textarea::placeholder {
-    color: #98a2b3;
-}
-
-.review-action-card textarea:focus {
-    border-color: var(--rb-accent);
-
-    box-shadow:
-        0 0 0 3px rgba(47, 128, 192, .08);
-}
-
 .review-action--revision {
     margin-top: 9px;
 
@@ -4871,25 +4794,12 @@ textarea {
    FORM ERROR
 ===================================================== */
 
-.review-action-card .form-error {
-    margin-top: 7px;
-
-    color: #b42318;
-
-    font-size: 9px;
-    line-height: 1.5;
-}
-
 
 /* =====================================================
    RESPONSIVE — TABLET
 ===================================================== */
 
 @media (max-width: 1000px) {
-
-    .review-page {
-        max-width: 100%;
-    }
 
     .review-layout {
         grid-template-columns: 1fr;
@@ -5496,11 +5406,6 @@ textarea {
         max-width: 100%;
     }
 
-    .admin-overview-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
     .admin-secondary {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
@@ -5517,10 +5422,6 @@ textarea {
     .admin-analytics-grid {
         grid-template-columns: 1fr;
         gap: 10px;
-    }
-
-    .admin-management-grid {
-        grid-template-columns: 1fr;
     }
 
     /* CHART */
@@ -5547,10 +5448,6 @@ textarea {
     .admin-secondary {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
-    }
-
-    .admin-overview-card {
-        padding: 15px;
     }
 
     .admin-overview-card:nth-child(2) {
@@ -5607,14 +5504,6 @@ textarea {
 
 
 @media (max-width: 380px) {
-
-    .admin-overview-card {
-        padding: 12px;
-    }
-
-    .admin-overview-card strong {
-        font-size: 20px;
-    }
 
     .admin-overview-card span {
         font-size: 8px;
@@ -6407,10 +6296,6 @@ textarea {
 
     .admin-user-table-wrapper {
         border-radius: 9px;
-    }
-
-    .admin-user-table {
-        min-width: 700px;
     }
 
     .admin-user-table th,
@@ -7790,11 +7675,6 @@ textarea {
     box-sizing: border-box;
 }
 
-.detail-share-menu button:hover {
-    background: #f7f9fc;
-    color: var(--rb-primary);
-}
-
 .detail-share-menu button {
     display: block;
 
@@ -8687,10 +8567,6 @@ textarea {
 
 .director-analytics-grid .user-analytics-chart-card {
     height: 360px;
-}
-
-.director-analytics-grid .user-analytics-chart {
-    height: 100%;
 }
 
 @media (max-width: 900px) {

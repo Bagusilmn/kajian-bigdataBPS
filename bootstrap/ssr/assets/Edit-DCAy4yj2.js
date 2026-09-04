@@ -1987,7 +1987,7 @@ function Edit({ study, categories }) {
                 /* @__PURE__ */ jsx("label", { children: "Informasi" }),
                 /* @__PURE__ */ jsxs("select", { value: editorModal.fields.variant ?? "info", onChange: (e) => setEditorModal((c) => ({ ...c, fields: { ...c.fields, variant: e.target.value } })), children: [
                   /* @__PURE__ */ jsx("option", { value: "info", children: "Informasi" }),
-                  /* @__PURE__ */ jsx("option", { value: "warning", children: "Sukses" }),
+                  /* @__PURE__ */ jsx("option", { value: "warning", children: "Peringatan" }),
                   /* @__PURE__ */ jsx("option", { value: "success", children: "Sukses" }),
                   /* @__PURE__ */ jsx("option", { value: "important", children: "Penting" })
                 ] })

@@ -3114,7 +3114,7 @@ export default function Edit({ study, categories }) {
                                         <label>{'Informasi'}</label>
                                         <select value={editorModal.fields.variant ?? 'info'} onChange={(e) => setEditorModal(c => ({ ...c, fields: { ...c.fields, variant: e.target.value } }))}>
                                             <option value="info">Informasi</option>
-                                            <option value="warning">{'Sukses'}</option>
+                                            <option value="warning">{'Peringatan'}</option>
                                             <option value="success">Sukses</option>
                                             <option value="important">{'Penting'}</option>
                                         </select>

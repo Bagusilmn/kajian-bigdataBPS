@@ -1,5 +1,5 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { u as useLanguage } from "./PublicLayout-CV7vGuTx.js";
+import { u as useLanguage } from "../ssr.js";
 function StudyCard({ study }) {
   var _a, _b;
   const { t } = useLanguage();

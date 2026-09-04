@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Models\StudyDeletionRequest;
+use App\Support\StudyContentSanitizer;
 use Inertia\Inertia;
 
 
@@ -24,7 +25,7 @@ class StudyController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, StudyContentSanitizer $contentSanitizer)
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -96,7 +97,7 @@ class StudyController extends Controller
 
             'cover_image' => $coverImage,
 
-            'content' => $validated['content'],
+            'content' => $contentSanitizer->sanitize($validated['content']),
             'status' => $request->boolean('submit_for_review')
                 ? 'submitted'
                 : 'draft',
@@ -206,7 +207,11 @@ class StudyController extends Controller
             'categories' => $categories,
         ]);
     }
-    public function update(Request $request, Study $study)
+    public function update(
+        Request $request,
+        Study $study,
+        StudyContentSanitizer $contentSanitizer
+    )
     {
         if ($study->user_id !== Auth::id()) {
             abort(403);
@@ -271,7 +276,7 @@ class StudyController extends Controller
         $study->approval_flow = $validated['approval_flow'];
         $study->excerpt = $validated['excerpt'];
 
-        $study->content = $validated['content'];
+        $study->content = $contentSanitizer->sanitize($validated['content']);
 
         if ($request->hasFile('cover_image')) {
 

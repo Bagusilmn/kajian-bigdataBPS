@@ -395,7 +395,7 @@ export default function Home({
                             href="/kajian"
                             className="home-button home-button--primary"
                         >
-                            {t.home.ctaDescription}
+                            {t.home.exploreStudies} →
                         </a>
 
                     </div>

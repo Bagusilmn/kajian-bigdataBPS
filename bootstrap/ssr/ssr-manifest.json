@@ -7,28 +7,26 @@
     "/build/assets/FeedbackProvider-Chsn1HxW.js"
   ],
   "resources/js/Components/Footer.jsx": [
-    "/build/assets/PublicLayout-CV7vGuTx.js"
+    "/build/assets/PublicLayout-WfD6WHc7.js"
   ],
   "resources/js/Components/Navbar.jsx": [
-    "/build/assets/PublicLayout-CV7vGuTx.js"
+    "/build/assets/PublicLayout-WfD6WHc7.js"
   ],
   "resources/js/Components/Sidebar.jsx": [
     "/build/assets/DashboardLayout-Y_7hl2u9.js"
   ],
   "resources/js/Components/StudyCard.jsx": [
-    "/build/assets/StudyCard-Cvwsc5ty.js"
+    "/build/assets/StudyCard-ChpCt6eR.js"
   ],
   "resources/js/Components/TopicCard.jsx": [
-    "/build/assets/Home-jIlU4GBm.js"
+    "/build/assets/Home-sJhmfiTn.js"
   ],
-  "resources/js/Contexts/LanguageContext.jsx": [
-    "/build/assets/PublicLayout-CV7vGuTx.js"
-  ],
+  "resources/js/Contexts/LanguageContext.jsx": [],
   "resources/js/Layouts/DashboardLayout.jsx": [
     "/build/assets/DashboardLayout-Y_7hl2u9.js"
   ],
   "resources/js/Layouts/PublicLayout.jsx": [
-    "/build/assets/PublicLayout-CV7vGuTx.js"
+    "/build/assets/PublicLayout-WfD6WHc7.js"
   ],
   "resources/js/Pages/Admin/Categories/Index.jsx": [
     "/build/assets/Index-DmBBiSm7.js"
@@ -73,13 +71,13 @@
     "/build/assets/Edit-CxNxd6C8.js"
   ],
   "resources/js/Pages/Public/Home.jsx": [
-    "/build/assets/Home-jIlU4GBm.js"
+    "/build/assets/Home-sJhmfiTn.js"
   ],
   "resources/js/Pages/Public/Studies.jsx": [
-    "/build/assets/Studies-BUq4yapG.js"
+    "/build/assets/Studies-DGB6zadF.js"
   ],
   "resources/js/Pages/Public/StudyDetail.jsx": [
-    "/build/assets/StudyDetail-DSTD8I2E.js"
+    "/build/assets/StudyDetail-gzUkO-vP.js"
   ],
   "resources/js/Pages/Reviewer/ActiveStudies.jsx": [
     "/build/assets/ActiveStudies-CpLBAmL2.js"
@@ -104,8 +102,9 @@
     "/build/assets/resize-BXQemLSE.css"
   ],
   "resources/js/Pages/User/Studies/Edit.jsx": [
-    "/build/assets/Edit-DRwVrS7f.js",
+    "/build/assets/Edit-DCAy4yj2.js",
     "/build/assets/resize-BXQemLSE.css"
   ],
+  "resources/js/i18n.js": [],
   "resources/js/ssr.jsx": []
 }

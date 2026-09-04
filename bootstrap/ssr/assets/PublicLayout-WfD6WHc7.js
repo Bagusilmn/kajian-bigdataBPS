@@ -1,17 +1,8 @@
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
-import { useContext, createContext, useState } from "react";
+import { useState } from "react";
 import { usePage, router } from "@inertiajs/react";
 import { B as BpsLogo } from "./BpsLogo-CvcnsC1A.js";
-const LanguageContext = createContext(null);
-function useLanguage() {
-  const context = useContext(LanguageContext);
-  if (!context) {
-    throw new Error(
-      "useLanguage harus digunakan di dalam LanguageProvider"
-    );
-  }
-  return context;
-}
+import { u as useLanguage } from "../ssr.js";
 function Navbar() {
   var _a, _b;
   const { auth } = usePage().props;
@@ -172,6 +163,5 @@ function PublicLayout({ children }) {
   ] });
 }
 export {
-  PublicLayout as P,
-  useLanguage as u
+  PublicLayout as P
 };

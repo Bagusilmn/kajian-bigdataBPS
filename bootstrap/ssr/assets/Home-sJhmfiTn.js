@@ -1,9 +1,12 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
-import { u as useLanguage, P as PublicLayout } from "./PublicLayout-CV7vGuTx.js";
+import { P as PublicLayout } from "./PublicLayout-WfD6WHc7.js";
+import { u as useLanguage } from "../ssr.js";
 import { Head } from "@inertiajs/react";
-import { S as StudyCard } from "./StudyCard-Cvwsc5ty.js";
+import { S as StudyCard } from "./StudyCard-ChpCt6eR.js";
 import "./BpsLogo-CvcnsC1A.js";
+import "@inertiajs/react/server";
+import "react-dom/server";
 function TopicCard({ category, index }) {
   return /* @__PURE__ */ jsxs(
     "a",
@@ -310,12 +313,15 @@ function Home({
           ] }),
           /* @__PURE__ */ jsx("p", { children: t.home.ctaDescription })
         ] }),
-        /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxs(
           "a",
           {
             href: "/kajian",
             className: "home-button home-button--primary",
-            children: t.home.ctaDescription
+            children: [
+              t.home.exploreStudies,
+              " →"
+            ]
           }
         )
       ] }) })

@@ -1,9 +1,12 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
 import { Head, router } from "@inertiajs/react";
-import { u as useLanguage, P as PublicLayout } from "./PublicLayout-CV7vGuTx.js";
-import { S as StudyCard } from "./StudyCard-Cvwsc5ty.js";
+import { P as PublicLayout } from "./PublicLayout-WfD6WHc7.js";
+import { S as StudyCard } from "./StudyCard-ChpCt6eR.js";
+import { u as useLanguage } from "../ssr.js";
 import "./BpsLogo-CvcnsC1A.js";
+import "@inertiajs/react/server";
+import "react-dom/server";
 function Studies({
   studies,
   categories,

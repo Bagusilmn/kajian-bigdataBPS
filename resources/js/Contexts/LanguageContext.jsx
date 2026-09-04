@@ -5,11 +5,15 @@ const LanguageContext = createContext(null);
 
 export function LanguageProvider({ children }) {
     const [language, setLanguage] = useState(() => {
-        return localStorage.getItem('language') || 'id';
+        if (typeof window === 'undefined') {
+            return 'id';
+        }
+
+        return window.localStorage.getItem('language') || 'id';
     });
 
     useEffect(() => {
-        localStorage.setItem('language', language);
+        window.localStorage.setItem('language', language);
     }, [language]);
 
     const t = translations[language];

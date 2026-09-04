@@ -11,7 +11,9 @@ class Study extends Model
 
     protected $fillable = [
         'author_id',
+        'user_id',
         'category_id',
+        'current_reviewer_id',
         'title',
         'slug',
         'excerpt',

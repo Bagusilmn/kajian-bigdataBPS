@@ -96,13 +96,35 @@ class StudyController extends Controller
             abort(403);
         }
 
+        // Simpan hasil review Reviewer
         $study->reviews()->create([
             'reviewer_id' => auth()->id(),
             'decision' => 'approved',
             'stage' => 'reviewer',
-            'notes' => 'Kajian diteruskan ke Direktur.',
+            'notes' => $study->approval_flow === 'reviewer'
+                ? 'Kajian disetujui dan dipublikasikan.'
+                : 'Kajian diteruskan ke Direktur.',
         ]);
 
+        // Jika hanya membutuhkan 1 Reviewer,
+        // langsung publish setelah Reviewer menyetujui.
+        if ($study->approval_flow === 'reviewer') {
+            $study->update([
+                'status' => 'published',
+                'published_at' => now(),
+                'current_reviewer_id' => null,
+            ]);
+
+            return redirect()
+                ->route('reviewer.dashboard')
+                ->with(
+                    'success',
+                    'Kajian berhasil disetujui dan dipublikasikan.'
+                );
+        }
+
+        // Jika membutuhkan Reviewer + Direktur,
+        // lanjutkan ke tahap review Direktur.
         $study->update([
             'status' => 'director_review',
             'current_reviewer_id' => null,

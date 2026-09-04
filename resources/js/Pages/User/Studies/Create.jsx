@@ -106,7 +106,7 @@ class VideoBlot extends BlockEmbed {
                 <div class="study-video-frame">
                     <iframe
                         src="${embedUrl}"
-                        title="Video kajian"
+                        title="${escapeHtml('Video kajian')}"
                         loading="lazy"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen
@@ -134,6 +134,84 @@ class VideoBlot extends BlockEmbed {
     }
 }
 
+/*
+|--------------------------------------------------------------------------
+| Embed
+|--------------------------------------------------------------------------
+*/
+
+class EmbedBlot extends BlockEmbed {
+    static blotName = 'studyEmbed';
+    static tagName = 'div';
+    static className = 'study-embed-block';
+
+    static create(value) {
+        const node = super.create();
+
+        node.setAttribute('contenteditable', 'false');
+
+        const url = String(value.url || '').trim();
+        const type = value.type || 'url';
+
+        node.dataset.url = url;
+        node.dataset.type = type;
+
+        if (!url) {
+            return node;
+        }
+
+        if (type === 'github' || type === 'gitlab') {
+            const platform =
+                type === 'github'
+                    ? 'GitHub'
+                    : 'GitLab';
+
+            node.innerHTML = `
+                <div class="study-repository-card">
+                    <div class="study-repository-platform">
+                        ${platform}
+                    </div>
+
+                    <div class="study-repository-url">
+                        ${url}
+                    </div>
+
+                    <a
+                        href="${url}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Buka Repository
+                    </a>
+                </div>
+            `;
+
+            return node;
+        }
+
+        node.innerHTML = `
+            <div class="study-embed-frame">
+                <iframe
+                    src="${url}"
+                    title="${escapeHtml('Konten embed kajian')}"
+                    loading="lazy"
+                    allowfullscreen
+                ></iframe>
+            </div>
+        `;
+
+        return node;
+    }
+
+    static value(node) {
+        return {
+            url: node.dataset.url,
+            type: node.dataset.type,
+        };
+    }
+}
+
+Quill.register(EmbedBlot);
 
 /*
 |--------------------------------------------------------------------------
@@ -335,7 +413,6 @@ Quill.register('modules/resize', QuillResize);
 | Helpers
 |--------------------------------------------------------------------------
 */
-
 function escapeHtml(value = '') {
     return String(value)
         .replaceAll('&', '&amp;')
@@ -534,7 +611,20 @@ const COMMANDS = [
         keywords: ['youtube', 'video'],
         icon: '▶',
     },
-
+    {
+        group: 'EMBED',
+        type: 'github',
+        label: 'GitHub',
+        description: 'Tampilkan repository GitHub',
+        keywords: ['github', 'repository', 'repo', 'code'],
+    },
+    {
+        group: 'EMBED',
+        type: 'gitlab',
+        label: 'GitLab',
+        description: 'Tampilkan repository GitLab',
+        keywords: ['gitlab', 'repository', 'repo', 'code'],
+    },
     {
         group: 'EMBED',
         type: 'vimeo',
@@ -556,7 +646,6 @@ const COMMANDS = [
 
 
 export default function Create({ categories = [] }) {
-
     const editorRef = useRef(null);
     const quillRef = useRef(null);
     const slashRangeRef = useRef(null);
@@ -600,6 +689,7 @@ export default function Create({ categories = [] }) {
         content: '',
         cover_image: null,
         keywords: [],
+        approval_flow: 'reviewer_director',
         submit_for_review: false,
     });
     const openEditorModal = (type, fields = {}) => {
@@ -1573,6 +1663,45 @@ export default function Create({ categories = [] }) {
         );
     };
 
+    const insertEmbed = ({
+        url,
+        type = 'url',
+    } = {}) => {
+
+        const quill =
+            quillRef.current;
+
+        if (!quill || !url) {
+            return;
+        }
+
+        removeSlash();
+
+        const range =
+            quill.getSelection(true);
+
+        quill.insertEmbed(
+            range.index,
+            'studyEmbed',
+            {
+                url: url.trim(),
+                type,
+            },
+            'user'
+        );
+
+        quill.insertText(
+            range.index + 1,
+            '\n',
+            'user'
+        );
+
+        quill.setSelection(
+            range.index + 2,
+            0,
+            'user'
+        );
+    };
 
     const insertButton = ({
         label = 'Lihat Selengkapnya',
@@ -1808,24 +1937,23 @@ export default function Create({ categories = [] }) {
                 break;
 
             case 'youtube':
-                openEditorModal('video', {
-                    preset: 'youtube',
-                    url: '',
-                });
+                openEditorModal('video', { preset: 'youtube', url: '' });
+                break;
+
+            case 'github':
+                openEditorModal('embed', { preset: 'github', url: '' });
+                break;
+
+            case 'gitlab':
+                openEditorModal('embed', { preset: 'gitlab', url: '' });
                 break;
 
             case 'vimeo':
-                openEditorModal('video', {
-                    preset: 'vimeo',
-                    url: '',
-                });
+                openEditorModal('video', { preset: 'vimeo', url: '' });
                 break;
 
             case 'embed':
-                openEditorModal('video', {
-                    preset: 'embed',
-                    url: '',
-                });
+                openEditorModal('embed', { preset: 'url', url: '' });
                 break;
 
             default:
@@ -2158,9 +2286,70 @@ export default function Create({ categories = [] }) {
                                     {form.errors.category_id}
                                 </div>
                             )}
-
                         </div>
+                        <div className="form-field">
+                            <label>
+                                Alur Persetujuan
+                            </label>
 
+                            <div className="approval-flow-options">
+                                <label className="approval-flow-option">
+                                    <input
+                                        type="radio"
+                                        name="approval_flow"
+                                        value="reviewer"
+                                        checked={form.data.approval_flow === 'reviewer'}
+                                        onChange={(event) =>
+                                            form.setData(
+                                                'approval_flow',
+                                                event.target.value
+                                            )
+                                        }
+                                    />
+
+                                    <div>
+                                        <strong>Reviewer saja</strong>
+                                        <p>
+                                            Setelah disetujui Reviewer, kajian
+                                            langsung dipublikasikan.
+                                        </p>
+                                    </div>
+                                </label>
+
+                                <label className="approval-flow-option">
+                                    <input
+                                        type="radio"
+                                        name="approval_flow"
+                                        value="reviewer_director"
+                                        checked={
+                                            form.data.approval_flow ===
+                                            'reviewer_director'
+                                        }
+                                        onChange={(event) =>
+                                            form.setData(
+                                                'approval_flow',
+                                                event.target.value
+                                            )
+                                        }
+                                    />
+
+                                    <div>
+                                        <strong>Reviewer + Direktur</strong>
+                                        <p>
+                                            Setelah disetujui Reviewer, kajian
+                                            diteruskan ke Direktur untuk persetujuan
+                                            akhir.
+                                        </p>
+                                    </div>
+                                </label>
+                            </div>
+
+                            {form.errors.approval_flow && (
+                                <div className="form-error">
+                                    {form.errors.approval_flow}
+                                </div>
+                            )}
+                        </div>
 
                         <div className="form-field">
 
@@ -2237,7 +2426,6 @@ export default function Create({ categories = [] }) {
 
                     </div>
 
-
                     {/* RINGKASAN */}
 
                     <div className="form-section">
@@ -2271,7 +2459,7 @@ export default function Create({ categories = [] }) {
                                 <div className="cover-preview">
                                     <img
                                         src={coverPreview}
-                                        alt="Preview cover"
+                                        alt={'Preview cover'}
                                     />
                                 </div>
                             )}
@@ -2340,7 +2528,7 @@ export default function Create({ categories = [] }) {
                                         event.target.value
                                     )
                                 }
-                                placeholder="Jelaskan secara singkat isi kajian..."
+                                placeholder={'Jelaskan secara singkat isi kajian...'}
                             />
 
                             <small>
@@ -2751,7 +2939,7 @@ export default function Create({ categories = [] }) {
                                     type="button"
                                     className="study-editor-modal__close"
                                     onClick={closeEditorModal}
-                                    aria-label="Tutup"
+                                    aria-label={'Tutup'}
                                 >
                                     ×
                                 </button>
@@ -2780,7 +2968,7 @@ export default function Create({ categories = [] }) {
                                                         },
                                                     }))
                                                 }
-                                                placeholder="Catatan"
+                                                placeholder={'Catatan'}
                                                 autoFocus
                                             />
 
@@ -2805,7 +2993,7 @@ export default function Create({ categories = [] }) {
                                                         },
                                                     }))
                                                 }
-                                                placeholder="Tulis informasi yang ingin ditonjolkan..."
+                                                placeholder={'Tulis informasi yang ingin ditonjolkan...'}
                                             />
 
                                         </div>
@@ -2887,6 +3075,42 @@ export default function Create({ categories = [] }) {
                                     </div>
                                 )}
 
+                                {editorModal.type === 'embed' && (
+                                    <div className="study-editor-modal__field">
+                                        <label>
+                                            {editorModal.fields.preset === 'github'
+                                                ? 'URL Repository GitHub'
+                                                : editorModal.fields.preset === 'gitlab'
+                                                    ? 'URL Repository GitLab'
+                                                    : 'URL Embed'}
+                                        </label>
+
+                                        <input
+                                            type="url"
+                                            value={editorModal.fields.url ?? ''}
+                                            onChange={(event) =>
+                                                setEditorModal((current) => ({
+                                                    ...current,
+                                                    fields: {
+                                                        ...current.fields,
+                                                        url: event.target.value,
+                                                    },
+                                                }))
+                                            }
+                                            placeholder="https://..."
+                                            autoFocus
+                                        />
+
+                                        <small>
+                                            {editorModal.fields.preset === 'github'
+                                                ? 'Masukkan URL repository GitHub.'
+                                                : editorModal.fields.preset === 'gitlab'
+                                                    ? 'Masukkan URL repository GitLab.'
+                                                    : 'Masukkan URL yang ingin di-embed ke dalam kajian.'}
+                                        </small>
+
+                                    </div>
+                                )}
 
                                 {editorModal.type === 'button' && (
                                     <>
@@ -2908,7 +3132,7 @@ export default function Create({ categories = [] }) {
                                                         },
                                                     }))
                                                 }
-                                                placeholder="Lihat Selengkapnya"
+                                                placeholder={'Lihat Selengkapnya'}
                                                 autoFocus
                                             />
 
@@ -2959,7 +3183,7 @@ export default function Create({ categories = [] }) {
                                                     },
                                                 }))
                                             }
-                                            placeholder="Jelaskan isi gambar..."
+                                            placeholder={'Jelaskan isi gambar...'}
                                             autoFocus
                                         />
 
@@ -3027,6 +3251,21 @@ export default function Create({ categories = [] }) {
                                             return;
                                         }
 
+                                        if (editorModal.type === 'embed') {
+
+                                            if (!editorModal.fields.url?.trim()) {
+                                                return;
+                                            }
+
+                                            insertEmbed({
+                                                url: editorModal.fields.url,
+                                                type: editorModal.fields.preset || 'url',
+                                            });
+
+                                            closeEditorModal();
+
+                                            return;
+                                        }                                  
 
                                         if (editorModal.type === 'button') {
 
@@ -3161,7 +3400,7 @@ export default function Create({ categories = [] }) {
                                 type="button"
                                 className="study-public-preview__close"
                                 onClick={closePreview}
-                                aria-label="Tutup preview"
+                                aria-label={'Tutup preview'}
                             >
                                 ×
                             </button>
@@ -3205,7 +3444,7 @@ export default function Create({ categories = [] }) {
                                     </h1>
 
                                     <div className="study-public-preview__meta">
-                                        <span>Preview</span>
+                                        <span>{'Preview'}</span>
                                         <span>•</span>
                                         <span>
                                             Kajian Big Data BPS
@@ -3275,7 +3514,7 @@ export default function Create({ categories = [] }) {
                                     dangerouslySetInnerHTML={{
                                         __html:
                                             form.data.content ||
-                                            '<p>Belum ada isi kajian.</p>',
+                                            <p>{'Belum ada isi kajian.'}</p>
                                     }}
                                 />
 
@@ -3313,7 +3552,7 @@ export default function Create({ categories = [] }) {
                                 onClick={() =>
                                     setShowSubmitConfirm(false)
                                 }
-                                aria-label="Tutup"
+                                aria-label={'Tutup'}
                             >
                                 ×
                             </button>

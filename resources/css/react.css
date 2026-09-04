@@ -3885,7 +3885,56 @@ textarea {
 .form-field {
     margin-top: 24px;
 }
+.approval-flow-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+}
 
+.approval-flow-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.approval-flow-option:hover {
+    border-color: #94a3b8;
+    background: #f8fafc;
+}
+.approval-flow-option:has(input[type="radio"]:checked) {
+    border-color: #2563eb;
+    background: #f8fbff;
+}
+
+.approval-flow-option:has(input[type="radio"]:checked) strong {
+    color: #2563eb;
+}
+.approval-flow-option input[type="radio"] {
+    margin-top: 3px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.approval-flow-option strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.approval-flow-option p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.5;
+}
 .form-field label {
     display: block;
 
@@ -16349,4 +16398,177 @@ iframe.ql-video[src*=".pdf"] {
     display: block;
     border: 0;
     border-radius: 8px;
+}
+
+/* =========================================
+   Study Embed
+   ========================================= */
+
+
+.study-embed-block {
+    width: 100%;
+    margin: 24px 0;
+}
+.study-embed-frame {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #f8fafc;
+}
+.study-embed-frame iframe {
+    display: block;
+    width: 100%;
+    min-height: 520px;
+    height: 600px;
+    border: 0;
+    background: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .study-embed-frame iframe {
+        min-height: 420px;
+        height: 520px;
+    }
+}
+.study-repository-card {
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+.study-repository-platform {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.study-repository-url {
+    margin-bottom: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #64748b;
+    word-break: break-word;
+}
+
+.study-repository-card a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.study-repository-card a:hover {
+    background: #1d4ed8;
+}
+
+/* Embed di dalam Quill Editor */
+.ql-editor .study-embed-block {
+    display: block;
+    width: 100%;
+    margin: 16px 0;
+}
+
+.ql-editor .study-repository-card {
+    padding: 20px;
+    margin: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+.ql-editor .study-repository-platform {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+.ql-editor .study-repository-url {
+    margin: 0 0 16px 0;
+    font-size: 13px;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.ql-editor .study-repository-card a {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    margin: 0;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff !important;
+    font-size: 13px;
+    line-height: 1.4;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.ql-editor .study-repository-card a:hover {
+    background: #1d4ed8;
+}
+.site-language {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 4px;
+    background: #f1f3f5;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.site-language__option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-width: 52px;
+    height: 32px;
+    padding: 0 10px;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+}
+
+.site-language__option:hover {
+    color: #111827;
+}
+
+.site-language__option:active {
+    transform: scale(0.96);
+}
+
+.site-language__option--active {
+    background: #ffffff;
+    color: #111827;
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.08),
+        0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.site-language__flag {
+    font-size: 14px;
+    line-height: 1;
 }

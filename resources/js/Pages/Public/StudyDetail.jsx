@@ -2,6 +2,7 @@ import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
 import PublicLayout from '../../Layouts/PublicLayout';
 import { useFeedback } from '../../Components/FeedbackProvider';
+import { useLanguage } from '../../Contexts/LanguageContext';
 import {
     Head,
     router,
@@ -20,6 +21,7 @@ export default function StudyDetail({
     totalComments,
     recommendedStudies,
 }) {
+    const { t } = useLanguage();
     const {
         showToast,
     } = useFeedback();
@@ -584,7 +586,7 @@ export default function StudyDetail({
                                                 )
                                             }
                                             rows="5"
-                                            placeholder="Tulis komentar atau tanggapanmu..."
+                                            placeholder={t.studyDetail.commentPlaceholder}
                                         />
 
                                         {commentForm.errors.comment && (

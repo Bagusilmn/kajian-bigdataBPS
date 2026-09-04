@@ -44,7 +44,6 @@ class StudyController extends Controller
                 'required',
                 'string',
             ],
-
             'cover_image' => [
                 'nullable',
                 'image',
@@ -69,6 +68,10 @@ class StudyController extends Controller
                 'nullable',
                 'boolean',
             ],
+            'approval_flow' => [
+                'required',
+                'in:reviewer,reviewer_director',
+            ],
         ]);
 
         $coverImage = null;
@@ -83,7 +86,7 @@ class StudyController extends Controller
             'user_id' => Auth::id(),
             'author_id' => Auth::id(),
             'category_id' => $validated['category_id'],
-
+            'approval_flow' => $validated['approval_flow'],
             'title' => $validated['title'],
 
             'slug' => Str::slug($validated['title'])
@@ -94,7 +97,6 @@ class StudyController extends Controller
             'cover_image' => $coverImage,
 
             'content' => $validated['content'],
-
             'status' => $request->boolean('submit_for_review')
                 ? 'submitted'
                 : 'draft',
@@ -257,12 +259,16 @@ class StudyController extends Controller
                 'min:2',
                 'max:50',
             ],
+            'approval_flow' => [
+                'required',
+                'in:reviewer,reviewer_director',
+            ],
         ]);
 
         $study->title = $validated['title'];
 
         $study->category_id = $validated['category_id'];
-
+        $study->approval_flow = $validated['approval_flow'];
         $study->excerpt = $validated['excerpt'];
 
         $study->content = $validated['content'];
@@ -302,15 +308,6 @@ class StudyController extends Controller
                 'status' => 'submitted',
             ]);
 
-            return redirect()
-                ->route('user.dashboard')
-                ->with(
-                    'success',
-                    'Kajian berhasil diajukan untuk review.'
-                );
-        }
-
-        if ($request->boolean('submit_for_review')) {
             return redirect()
                 ->route('user.dashboard')
                 ->with(

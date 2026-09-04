@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 import PublicLayout from '../../Layouts/PublicLayout';
 import StudyCard from '../../Components/StudyCard';
+import { useLanguage } from '../../Contexts/LanguageContext';
 
 export default function Studies({
     studies,
     categories,
     filters,
 }) {
+    const { t } = useLanguage();
     const hasFilter =
         Boolean(filters?.search) ||
         Boolean(filters?.category);
@@ -201,7 +203,7 @@ export default function Studies({
                                     onChange={(event) =>
                                         setSearch(event.target.value)
                                     }
-                                    placeholder="Cari judul atau ringkasan kajian..."
+                                    placeholder={t.studies.searchPlaceholder}
                                 />
 
                             </div>
@@ -231,7 +233,7 @@ export default function Studies({
 
                             </select>
 
-                            {/* <button type="submit" className="studies-filter__button">Cari</button> */}
+                            {/* <button type="submit" className="studies-filter__button">{t.common.search}</button> */}
 
                             {(search || category) && (
 

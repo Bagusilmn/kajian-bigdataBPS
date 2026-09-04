@@ -1,4 +1,6 @@
+import { useLanguage } from '../Contexts/LanguageContext';
 export default function StudyCard({ study }) {
+    const { t } = useLanguage();
     const formatDate = (date) => {
         if (!date) return '';
 
@@ -37,15 +39,15 @@ export default function StudyCard({ study }) {
 
                         <div className="study-card__placeholder-content">
                             <span className="study-card__placeholder-eyebrow">
-                                KAJIAN
+                                {t.studyCard.study}
                             </span>
 
                             <strong>
-                                BIG DATA
+                                {t.studyCard.bigData}
                             </strong>
 
                             <span>
-                                BADAN PUSAT STATISTIK
+                                {t.studyCard.statistics}
                             </span>
                         </div>
                     </div>
@@ -75,7 +77,7 @@ export default function StudyCard({ study }) {
                     </span>
 
                     <span className="study-card__status">
-                        Published
+                        {t.studyCard.published}
                     </span>
 
                 </div>
@@ -120,7 +122,7 @@ export default function StudyCard({ study }) {
                 <div className="study-card__footer">
 
                     <span className="study-card__link">
-                        Baca Kajian
+                        {t.studyCard.readStudy}
                     </span>
 
                     <span className="study-card__arrow">

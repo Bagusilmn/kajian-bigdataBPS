@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import BpsLogo from './BpsLogo';
+import { useLanguage } from '../Contexts/LanguageContext';
 
 export default function Navbar() {
     const { auth } = usePage().props;
@@ -8,12 +9,21 @@ export default function Navbar() {
     const user = auth?.user;
 
     const [showProfile, setShowProfile] = useState(false);
-
+    const { language, setLanguage, t } = useLanguage();
     const roleLabel = {
-        user: 'Peneliti',
-        reviewer: 'Reviewer',
-        director: 'Direktur',
-        admin: 'Administrator',
+        id: {
+            user: 'Peneliti',
+            reviewer: 'Reviewer',
+            director: 'Direktur',
+            admin: 'Administrator',
+        },
+
+        en: {
+            user: 'Researcher',
+            reviewer: 'Reviewer',
+            director: 'Director',
+            admin: 'Administrator',
+        },
     };
 
     const handleLogout = () => {
@@ -52,17 +62,46 @@ export default function Navbar() {
                 <div className="site-nav">
 
                     <a href="/">
-                        Beranda
-                    </a>    
+                        {t.nav.home}
+                    </a>
 
                     <a href="/kajian">
-                        Kajian
+                        {t.nav.studies}
                     </a>
 
                     <a href="/#topics">
-                        Topik
+                        {t.nav.topics}
                     </a>
 
+                    <div className="site-language" aria-label="Language selector">
+                        <button
+                            type="button"
+                            className={`site-language__option ${
+                                language === 'id'
+                                    ? 'site-language__option--active'
+                                    : ''
+                            }`}
+                            onClick={() => setLanguage('id')}
+                            aria-pressed={language === 'id'}
+                        >
+                            {/* <span className="site-language__flag">🇮🇩</span> */}
+                            <span>ID</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            className={`site-language__option ${
+                                language === 'en'
+                                    ? 'site-language__option--active'
+                                    : ''
+                            }`}
+                            onClick={() => setLanguage('en')}
+                            aria-pressed={language === 'en'}
+                        >
+                            {/* <span className="site-language__flag">🇬🇧</span> */}
+                            <span>EN</span>
+                        </button>
+                    </div>
 
                     {user && (
 
@@ -89,8 +128,8 @@ export default function Navbar() {
                                     </strong>
 
                                     <small>
-                                        {roleLabel[user.role] ??
-                                            'Pengguna'}
+                                        {roleLabel[language][user.role] ??
+                                            t.role.default}
                                     </small>
 
                                 </span>
@@ -112,8 +151,8 @@ export default function Navbar() {
                                         </strong>
 
                                         <span>
-                                            {roleLabel[user.role] ??
-                                                'Pengguna'}
+                                            {roleLabel[language][user.role] ??
+                                                t.role.default}
                                         </span>
 
                                     </div>

@@ -11,16 +11,15 @@ class Study extends Model
 
     protected $fillable = [
         'author_id',
-        'user_id',
         'category_id',
-        'current_reviewer_id',
         'title',
         'slug',
         'excerpt',
-        'cover_image',
         'content',
+        'cover_image',
         'status',
         'published_at',
+        'approval_flow',
     ];
 
     protected $casts = [

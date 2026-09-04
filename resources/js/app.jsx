@@ -4,6 +4,7 @@ import './bootstrap';
 
 import { createRoot } from 'react-dom/client';
 import { FeedbackProvider } from './Components/FeedbackProvider';
+import { LanguageProvider } from './Contexts/LanguageContext';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
@@ -16,9 +17,11 @@ createInertiaApp({
 
     setup({ el, App, props }) {
         createRoot(el).render(
-            <FeedbackProvider>
-                <App {...props} />
-            </FeedbackProvider>
+            <LanguageProvider>
+                <FeedbackProvider>
+                    <App {...props} />
+                </FeedbackProvider>
+            </LanguageProvider>
         );
     },
 

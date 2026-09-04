@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import PublicLayout from '../../Layouts/PublicLayout';
+import { useLanguage } from '../../Contexts/LanguageContext';
 import { Head } from '@inertiajs/react';
 import StudyCard from '../../Components/StudyCard';
 import TopicCard from '../../Components/TopicCard';
@@ -10,6 +11,7 @@ export default function Home({
     latestStudies,
     categories,
 }) {
+    const { language, t } = useLanguage();
     const [activePopular, setActivePopular] = useState(0);
 
     useEffect(() => {
@@ -130,21 +132,18 @@ export default function Home({
                         <div className="home-hero__content">
 
                             <div className="home-eyebrow">
-                                Knowledge Platform · Big Data BPS
+                                {t.home.eyebrow}
                             </div>
 
                             <h1>
-                                Eksplorasi Big Data
+                                {t.home.heroTitle}
                                 <span>
-                                    untuk statistik resmi.
+                                    {t.home.heroTitleHighlight}
                                 </span>
                             </h1>
 
                             <p className="home-hero__description">
-                                Temukan kajian, metode, dan insight
-                                berbasis data yang mendukung
-                                pengembangan statistik resmi dan
-                                pemanfaatan Big Data.
+                                {t.home.heroDescription}
                             </p>
 
 
@@ -154,7 +153,7 @@ export default function Home({
                                     href="/kajian"
                                     className="home-button home-button--primary"
                                 >
-                                    Jelajahi Kajian →
+                                    {t.home.exploreStudies} →
                                 </a>
 
                             </div>
@@ -187,7 +186,7 @@ export default function Home({
                                         )}
 
                                         <span className="home-featured-label">
-                                            KAJIAN TERPOPULER
+                                            {t.home.popularStudy}
                                         </span>
 
                                     </div>
@@ -226,7 +225,7 @@ export default function Home({
                                                     : current - 1
                                             );
                                         }}
-                                        aria-label="Kajian sebelumnya"
+                                        aria-label={t.home.previousStudy}
                                     >
                                         ←
                                     </button>
@@ -248,7 +247,7 @@ export default function Home({
                                                 onClick={() => {
                                                     setActivePopular(index);
                                                 }}
-                                                aria-label={`Kajian ${index + 1}`}
+                                                aria-label={`${t.home.study} ${index + 1}`}
                                             />
                                         ))}
 
@@ -263,7 +262,7 @@ export default function Home({
                                                 (current + 1) % popularStudies.length
                                             );
                                         }}
-                                        aria-label="Kajian berikutnya"
+                                        aria-label={t.home.nextStudy}
                                     >
                                         →
                                     </button>
@@ -283,11 +282,11 @@ export default function Home({
                         <div>
 
                             <div className="home-section-eyebrow">
-                                Explore
+                                {t.home.explore}
                             </div>
 
                             <h2 className="home-section-title">
-                                Kajian Terbaru
+                                {t.home.latestStudies}
                             </h2>
 
                         </div>
@@ -296,7 +295,7 @@ export default function Home({
                             href="/kajian"
                             className="home-section-link"
                         >
-                            Lihat semua →
+                            {t.home.seeAll} →
                         </a>
 
                     </div>
@@ -320,16 +319,15 @@ export default function Home({
                     <div className="home-topics__header">
 
                         <div className="home-topics__eyebrow">
-                            Explore by Topic
+                            {t.home.exploreByTopic}
                         </div>
 
                         <h2 className="home-topics__title">
-                            Fokus Kajian
+                            {t.home.focusStudies}
                         </h2>
 
                         <p className="home-topics__description">
-                            Jelajahi kajian berdasarkan topik dan bidang
-                            pemanfaatan Big Data.
+                            {t.home.focusDescription}
                         </p>
 
                     </div>
@@ -353,20 +351,18 @@ export default function Home({
                         <div>
 
                             <div className="home-statement__eyebrow">
-                                Big Data BPS
+                                {t.home.bigDataBps}
                             </div>
 
                             <h2>
-                                Data bukan hanya
-                                <span>angka.</span>
+                                {t.home.dataNotOnly}
+                                <span>{t.home.numbers}</span>
                             </h2>
 
                         </div>
 
                         <p>
-                            Kajian Big Data menjadi ruang untuk mengeksplorasi
-                            sumber data alternatif, metode baru, serta insight
-                            yang dapat mendukung penyelenggaraan statistik resmi.
+                            {t.home.statement}
                         </p>
 
                     </div>
@@ -379,17 +375,18 @@ export default function Home({
                         <div>
 
                             <div className="home-cta__eyebrow">
-                                Knowledge Center
+                                {t.home.knowledgeCenter}
                             </div>
 
                             <h2>
-                                Temukan kajian yang relevan
-                                dengan kebutuhanmu.
+                                {t.home.findRelevant}
+                                <span>
+                                    {t.home.withYourNeeds}
+                                </span>
                             </h2>
 
                             <p>
-                                Jelajahi berbagai kajian Big Data,
-                                metode, dan insight yang telah dipublikasikan.
+                                {t.home.ctaDescription}
                             </p>
 
                         </div>
@@ -398,7 +395,7 @@ export default function Home({
                             href="/kajian"
                             className="home-button home-button--primary"
                         >
-                            Jelajahi Semua Kajian →
+                            {t.home.ctaDescription}
                         </a>
 
                     </div>

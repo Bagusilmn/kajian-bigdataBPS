@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Study;
 use App\Support\StudyContentSanitizer;
 use PHPUnit\Framework\TestCase;
 
@@ -31,6 +32,19 @@ class StudyContentSanitizerTest extends TestCase
         $this->assertStringContainsString(
             'src="https://www.youtube.com/embed/demo"',
             $sanitized
+        );
+    }
+
+    public function test_legacy_study_content_is_sanitized_when_read(): void
+    {
+        $study = new Study();
+        $study->setRawAttributes([
+            'content' => '<img src="https://example.test/image.png" onerror="alert(1)">',
+        ]);
+
+        $this->assertSame(
+            '<img src="https://example.test/image.png">',
+            $study->content
         );
     }
 }

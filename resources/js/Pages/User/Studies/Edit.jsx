@@ -3394,13 +3394,14 @@ export default function Edit({ study, categories }) {
                             )}
 
                             {/* ISI KAJIAN */}
-                            <article
+                            <iframe
                                 className="study-public-preview__content"
-                                dangerouslySetInnerHTML={{
-                                    __html:
-                                        form.data.content ||
-                                        '<p>Belum ada isi kajian.</p>',
-                                }}
+                                title="Pratinjau isi kajian"
+                                sandbox=""
+                                srcDoc={
+                                    form.data.content ||
+                                    '<p>Belum ada isi kajian.</p>'
+                                }
                             />
 
                         </main>

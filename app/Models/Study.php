@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\StudyContentSanitizer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +28,15 @@ class Study extends Model
     protected $casts = [
         'published_at' => 'datetime',
     ];
+
+    /**
+     * Protect existing studies that were saved before server-side sanitizing
+     * was introduced. New and updated content is also sanitized on write.
+     */
+    public function getContentAttribute($value): string
+    {
+        return (new StudyContentSanitizer())->sanitize($value ?? '');
+    }
 
     public function user()
     {

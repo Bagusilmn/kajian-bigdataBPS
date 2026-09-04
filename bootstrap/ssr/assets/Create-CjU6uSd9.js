@@ -2235,12 +2235,12 @@ function Create({ categories = [] }) {
                 ) })
               ] }),
               /* @__PURE__ */ jsx(
-                "article",
+                "iframe",
                 {
                   className: "study-public-preview__content",
-                  dangerouslySetInnerHTML: {
-                    __html: form.data.content || /* @__PURE__ */ jsx("p", { children: "Belum ada isi kajian." })
-                  }
+                  title: "Pratinjau isi kajian",
+                  sandbox: "",
+                  srcDoc: form.data.content || "<p>Belum ada isi kajian.</p>"
                 }
               )
             ] })

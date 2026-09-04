@@ -10,6 +10,14 @@ import {
     usePage,
 } from '@inertiajs/react';
 
+const serializeJsonLd = (data) =>
+    JSON.stringify(data)
+        .replace(/</g, '\\u003c')
+        .replace(/>/g, '\\u003e')
+        .replace(/&/g, '\\u0026')
+        .replace(/\u2028/g, '\\u2028')
+        .replace(/\u2029/g, '\\u2029');
+
 export default function StudyDetail({
     study,
     seo,
@@ -26,7 +34,6 @@ export default function StudyDetail({
         showToast,
     } = useFeedback();
     const { auth } = usePage().props;
-    console.log('STUDY DETAIL:', study);    
     const seoDescription =
         seo?.description ||
         study.excerpt?.trim() ||
@@ -273,7 +280,7 @@ export default function StudyDetail({
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
+                        __html: serializeJsonLd({
                             '@context': 'https://schema.org',
                             '@type': 'Article',
 
